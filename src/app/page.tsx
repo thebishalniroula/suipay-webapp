@@ -43,12 +43,14 @@ export default function Home() {
         </h3>
 
         <div className="flex flex-row items-center justify-center gap-4 mt-8">
-          <Button className="bg-[#6c63ff] hover:bg-[#5a52d5] text-white rounded-full px-6 py-6 flex items-center">
-            Access App{" "}
-            <span className="ml-1">
-              <MdArrowOutward />
-            </span>
-          </Button>
+          <Link href="/signup">
+            <Button className="bg-[#6c63ff] hover:bg-[#5a52d5] text-white rounded-full px-6 py-6 flex items-center">
+              Access App{" "}
+              <span className="ml-1">
+                <MdArrowOutward />
+              </span>
+            </Button>
+          </Link>
 
           <Button
             variant="outline"

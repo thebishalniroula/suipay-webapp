@@ -16,27 +16,24 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  businessName: z.string().min(2, {
-    message: "Business name must be at least 2 characters.",
+  seedphrase: z.string().min(2, {
+    message: "seedphrase must be written",
   }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
+
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
   }),
 });
 
-export default function SignupPage() {
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+export default function SignPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      businessName: "",
-      email: "",
+      seedphrase: "",
+
       password: "",
     },
   });
@@ -57,7 +54,7 @@ export default function SignupPage() {
       <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">SuiPay</h1>
 
       <h2 className="text-xl md:text-2xl text-white mb-10">
-        Signup for a Smart Contract Wallet
+        Signin for a Smart Contract Wallet
       </h2>
 
       <div className="bg-transparent border border-[#4F4AED] rounded-3xl p-8 w-full max-w-md">
@@ -65,31 +62,14 @@ export default function SignupPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="businessName"
+              name="seedphrase"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="Business Name"
-                      className="bg-transparent border-[#A8A2F6] px-4  py-6 rounded-[15px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Email Address"
-                      type="email"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                    <Textarea
+                      placeholder="Enter your Seed Phrase..."
+                      className="bg-transparent border border-[#A8A2F6] px-4 pt-4 pb-2 rounded-[15px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 resize-none"
+                      rows={4}
                       {...field}
                     />
                   </FormControl>
@@ -109,41 +89,32 @@ export default function SignupPage() {
                       type="password"
                       className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setShowConfirmPassword(e.target.value.length > 0);
-                      }}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            {showConfirmPassword && (
-              <Input
-                placeholder="Re-enter Password"
-                type="password"
-                className="bg-transparent border-[#A8A2F6] px-4 rounded-[15px] py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
-              />
-            )}
-
-            <Button
-              type="submit"
-              className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
-            >
-              Sign Up
-            </Button>
+            <Link href="/dashboard">
+              <Button
+                type="submit"
+                className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
+              >
+                Sign In
+              </Button>
+            </Link>
           </form>
         </Form>
-        <div className="mt-4 text-white text-sm">Already have a wallet?</div>
-        <Link href="/signin">
+        <div className="mt-4 text-white text-sm">
+          Dont &apos;t have a wallet?
+        </div>
+        <Link href="/signup">
           <Button
             type="button"
             variant="outline"
             className="w-full bg-transparent hover:bg-[#7E7AF2] text-white border-[#3d3d6d] mt-3 uppercase py-6 rounded-[15px]"
           >
-            Sign In
+            Sign up
           </Button>
         </Link>
       </div>
