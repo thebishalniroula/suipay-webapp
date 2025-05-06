@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="relative bg-[#0a0a16] text-white antialiased overflow-hidden min-h-screen">
+      <body className="relative bg-[#0B0B10] text-white antialiased overflow-hidden min-h-screen">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
