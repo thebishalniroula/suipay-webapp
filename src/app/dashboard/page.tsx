@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/components/ui/dashboard/sidebar";
 import { ArrowDown } from "lucide-react";
+import Link from "next/link";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 
 export default function Dashboard() {
@@ -51,14 +52,19 @@ export default function Dashboard() {
           </div>
 
           <div className="flex gap-4 mb-6">
-            <button className="flex-1 bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-              <ArrowDown className="w-5 h-5 mr-2" />
-              Deposit
-            </button>
-            <button className="flex-1 bg-[#CFC4E7] hover:bg-[#6c63ff] text-black font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-              <IoIosArrowRoundUp className="w-5 h-5 mr-2" />
-              Send
-            </button>
+            <Link href="/dashboard/deposit" className="flex-1">
+              <Button className="w-full bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                <ArrowDown className="w-5 h-5 mr-2" />
+                Deposit
+              </Button>
+            </Link>
+
+            <Link href="/dashboard/send" className="flex-1">
+              <Button className="w-full bg-[#CFC4E7] hover:bg-[#6c63ff] text-black font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                <IoIosArrowRoundUp className="w-5 h-5 mr-2" />
+                Send
+              </Button>
+            </Link>
           </div>
 
           <div>
