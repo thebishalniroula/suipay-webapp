@@ -12,24 +12,29 @@ import { Button } from "@/components/ui/button";
 import { GoPlus } from "react-icons/go";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 export default function AddProductModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [durationUnit, setDurationUnit] = useState("Month");
+  const [showUnits, setShowUnits] = useState(false);
 
   const [subscriptionType, setSubscriptionType] = useState("onetime");
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div className="border-2 border-[#1F173F] rounded-2xl flex flex-col items-center justify-center p-8 bg-transparent text-white cursor-pointer hover:border-[#6c63ff] transition">
-          <div className="p-6 rounded-lg">
-            <span className="text-3xl">
-              <GoPlus />
-            </span>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      {!isOpen && (
+        <DialogTrigger asChild>
+          <div className="border-2 border-[#1F173F] rounded-2xl flex flex-col items-center justify-center p-8 bg-transparent text-white cursor-pointer hover:border-[#6c63ff] transition">
+            <div className="p-6 rounded-lg">
+              <span className="text-3xl">
+                <GoPlus />
+              </span>
+            </div>
+            <p className="text-lg font-medium">Add a Product</p>
           </div>
-          <p className="text-lg font-medium">Add a Product</p>
-        </div>
-      </DialogTrigger>
+        </DialogTrigger>
+      )}
 
       <DialogContent className="bg-transparent text-white border border-[#8B5CF6] rounded-2xl max-w-sm">
         <DialogHeader className="flex justify-between">
@@ -50,9 +55,9 @@ export default function AddProductModal() {
             className="w-full bg-transparent border border-[#2C2E4A] text-white placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none"
           />
 
-          <button className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 rounded-lg hover:bg-[#1a1a2e] transition">
+          <Button className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 rounded-lg hover:bg-[#1a1a2e] transition">
             + Link Web hook
-          </button>
+          </Button>
 
           <div>
             <p className="font-medium mb-2">Type of subscription</p>
@@ -81,20 +86,53 @@ export default function AddProductModal() {
           </div>
 
           {subscriptionType === "subscription" && (
-            <div className="relative">
-              <input
-                placeholder="Enter duration"
-                type="number"
-                className="w-full bg-transparent border border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg focus:outline-none"
-              />
-              <select className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-white px-2 py-1 focus:outline-none">
-                <option value="month" className="bg-[#0f0f1a] text-white">
-                  Month
-                </option>
-                <option value="year" className="bg-[#0f0f1a] text-white">
-                  Year
-                </option>
-              </select>
+            <div className="space-y-2">
+              <div className="relative">
+                <input
+                  placeholder="Enter duration"
+                  type="number"
+                  className="w-full bg-transparent border border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg focus:outline-none"
+                />
+
+                {!showUnits && (
+                  <Button
+                    type="button"
+                    onClick={() => setShowUnits(true)}
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-white px-2 py-1 focus:outline-none flex items-center gap-1"
+                  >
+                    {durationUnit}
+                    <MdOutlineKeyboardArrowDown />
+                  </Button>
+                )}
+              </div>
+
+              {showUnits && (
+                <div className="flex justify-between gap-2 px-1">
+                  {["Min", "Days", "Month", "Year"].map((unit) => (
+                    <label
+                      key={unit}
+                      className={`flex items-center justify-center flex-1 border rounded-lg px-3 py-2 text-sm capitalize cursor-pointer transition ${
+                        durationUnit === unit
+                          ? "border-[#8B5CF6] bg-[#1a1a2e] text-white"
+                          : "border-[#2C2E4A] text-gray-400"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="durationUnit"
+                        value={unit}
+                        checked={durationUnit === unit}
+                        onChange={() => {
+                          setDurationUnit(unit);
+                          setShowUnits(false);
+                        }}
+                        className="accent-[#8B5CF6] mr-2"
+                      />
+                      {unit}
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
