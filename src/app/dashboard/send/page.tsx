@@ -12,19 +12,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-
       <main className="flex-1 pt-6 px-4 flex flex-col items-center">
-        <div className="self-end mb-6">
-          <button className="bg-[#6c63ff] text-white rounded-[15px] px-4 py-2">
-            {walletAddress}
-          </button>
-        </div>
-
         <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-md flex flex-col items-center text-center">
           <div className="relative w-full flex items-center justify-center mb-6">
             <button
-              onClick={() => router.back()}
+              onClick={() => router.push("/dashboard")}
               className="absolute left-0 cursor-pointer"
             >
               <RiArrowLeftSLine className="text-white w-6 h-6" />

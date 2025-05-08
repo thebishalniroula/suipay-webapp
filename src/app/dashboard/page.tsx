@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Sidebar } from "@/components/ui/dashboard/sidebar";
 import { ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
@@ -35,15 +34,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-
       <main className="flex-1 pt-6 px-4 flex flex-col items-center">
-        <div className="self-end mb-6">
-          <button className="bg-[#6c63ff] text-white rounded-[15px] px-4 py-2">
-            {walletAddress}
-          </button>
-        </div>
-
         <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-md">
           <div className="mb-6">
             <p className="text-gray-400 mb-1">Balance</p>
