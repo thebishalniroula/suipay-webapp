@@ -3,27 +3,12 @@
 import { useState } from "react";
 import AddProductModal from "@/components/ui/dashboard/AddProductModal";
 import { Button } from "@/components/ui/button";
-import AddBox from "@/components/AddBox";
 import useGetProducts from "@/hooks/use-get-products";
 import { formatDuration } from "@/lib/utils";
-import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
-import toast from "react-hot-toast";
 
 export default function Products() {
   const [productModalOpen, setProductModalOpen] = useState(false);
   const { data: products } = useGetProducts();
-
-  const addProductMutation = useAddProduct();
-
-  const addProduct = async (product: AddProductParams) => {
-    try {
-      const res = await addProductMutation.mutateAsync(product);
-      toast.success("Product created successfully");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
 
   return (
     <div className="flex min-h-screen">
@@ -83,7 +68,6 @@ export default function Products() {
           ))}
 
           <AddProductModal
-            onAddProduct={addProduct}
             open={productModalOpen}
             setOpen={setProductModalOpen}
           />

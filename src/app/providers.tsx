@@ -19,7 +19,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   const { privateKey, setKeys } = useDecryptedKeysStore();
 
-  const { encrypted } = useWalletEssentialsStore();
+  const { encrypted, plain } = useWalletEssentialsStore();
   useSyncWalletStoreWithCookiesOnLoad();
 
   const handleSubmit = async (password: string) => {
@@ -34,7 +34,9 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={client}>
       <SuiClientProvider networks={networks} defaultNetwork="devnet">
-        {!privateKey && <PasswordPrompt onSubmit={handleSubmit} />}
+        {plain.accessToken && !privateKey && (
+          <PasswordPrompt onSubmit={handleSubmit} />
+        )}
         {children}
       </SuiClientProvider>
     </QueryClientProvider>
