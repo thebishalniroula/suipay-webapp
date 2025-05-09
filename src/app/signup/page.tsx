@@ -214,7 +214,7 @@ export default function SignupPage() {
                   <FormControl>
                     <Input
                       placeholder="Business Name"
-                      className="bg-transparent border-[#A8A2F6] px-4  py-6 rounded-[15px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -232,7 +232,7 @@ export default function SignupPage() {
                     <Input
                       placeholder="Email Address"
                       type="email"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -250,7 +250,7 @@ export default function SignupPage() {
                     <Input
                       placeholder="Password"
                       type="password"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -273,7 +273,7 @@ export default function SignupPage() {
                       <Input
                         placeholder="Re-enter Password"
                         type="password"
-                        className="bg-transparent border-[#A8A2F6] px-4 rounded-[15px] py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                        className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                         {...field}
                       />
                     </FormControl>

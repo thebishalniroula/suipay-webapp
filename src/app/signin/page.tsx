@@ -68,7 +68,7 @@ export default function SignPage() {
                   <FormControl>
                     <Textarea
                       placeholder="Enter your Seed Phrase..."
-                      className="bg-transparent border border-[#A8A2F6] px-4 pt-4 pb-2 rounded-[15px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 resize-none"
+                      className="bg-transparent border min-h-[150px] border-[#A8A2F6] px-4 pt-4 pb-2 rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 resize-none"
                       rows={4}
                       {...field}
                     />
@@ -87,7 +87,7 @@ export default function SignPage() {
                     <Input
                       placeholder="Password"
                       type="password"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>

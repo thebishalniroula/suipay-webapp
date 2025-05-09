@@ -33,14 +33,14 @@ export default function Dashboard() {
 
           <div className="flex gap-4 mb-6">
             <Link href="/dashboard/deposit" className="flex-1">
-              <Button className="w-full bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center">
+              <Button className="w-full bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium h-[65px] px-4 rounded-[26px] flex items-center justify-center">
                 <ArrowDown className="w-5 h-5 mr-2" />
                 Deposit
               </Button>
             </Link>
 
             <Link href="/dashboard/send" className="flex-1">
-              <Button className="w-full bg-[#CFC4E7] hover:bg-[#6c63ff] text-black font-medium py-3 px-4 rounded-lg flex items-center justify-center">
+              <Button className="w-full bg-[#CFC4E7] hover:bg-[#6c63ff]  h-[65px] px-4 rounded-[26px] text-black font-medium flex items-center justify-center">
                 <IoIosArrowRoundUp className="w-5 h-5 mr-2" />
                 Send
               </Button>
