@@ -14,13 +14,14 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import AddBox from "@/components/AddBox";
+import { AddProductParams } from "@/hooks/use-add-product";
 
 export default function AddProductModal({
   onAddProduct,
   open,
   setOpen,
 }: {
-  onAddProduct: (product: any) => void;
+  onAddProduct: (product: AddProductParams) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
@@ -42,10 +43,13 @@ export default function AddProductModal({
     onAddProduct({
       name,
       price,
-      duration,
-      durationUnit,
-      subscriptionType,
-      webhook: linkedWebhook,
+      recurringPeriod: +duration,
+
+      // this does not need to be passed here, instead calculate duration in seconds and pass the duration in seconds in above recurringPeriod paramerter
+      // durationUnit,
+
+      // this has not been implemented yet in the backend
+      // webhook: linkedWebhook,
     });
 
     setIsOpen(false);

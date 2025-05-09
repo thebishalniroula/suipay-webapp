@@ -10,15 +10,12 @@ import useGetTransactionHistory from "@/hooks/use-get-transaction-history";
 
 import { WalletEssentials } from "@/types";
 import { STORAGE_KEYS } from "../config/storage-keys";
-
-const address =
-  "0xc512b99fcf83dc1232f280b01ac2c56b253461b608f754225339eccfa2557fa0";
-
-const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjB4YzUxMmI5OWZjZjgzZGMxMjMyZjI4MGIwMWFjMmM1NmIyNTM0NjFiNjA4Zjc1NDIyNTMzOWVjY2ZhMjU1N2ZhMCIsInR5cGUiOiJVU0VSIiwiaWF0IjoxNzQ2Nzc4MTg4LCJleHAiOjE3NDY4NjQ1ODh9.edVXuR1jqatRLn7GjnLAyCOdojsiGW7YCYfDFfknGzA";
+import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 
 export default function Dashboard() {
-  const history = useGetTransactionHistory(address, accessToken);
+  const { plain, encrypted } = useWalletEssentialsStore();
+
+  const history = useGetTransactionHistory(plain.address, plain.accessToken);
   const balance = 55.43;
 
   return (

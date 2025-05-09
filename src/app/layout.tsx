@@ -26,60 +26,65 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative bg-[#0B0B10] text-white antialiased overflow-hidden min-h-screen">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1440 980"
-            className="w-full h-full object-cover"
-          >
-            <g filter="url(#filter0_f_3029_93)">
-              <path
-                d="M543.848 759.362C620.723 605.159 330.924 646.271 399.285 458.58C266.545 289.456 575.784 203.754 636.237 170.807L1044.29 374.232L878.222 707.341C788.887 743.024 466.973 913.565 543.848 759.362Z"
-                fill="url(#paint0_linear_3029_93)"
-                fillOpacity="0.5"
-              />
-            </g>
-            <defs>
-              <filter
-                id="filter0_f_3029_93"
-                x="-90.54"
-                y="-286.235"
-                width="1591.87"
-                height="1566.15"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                  result="shape"
-                />
-                <feGaussianBlur
-                  stdDeviation="228.52"
-                  result="effect1_foregroundBlur_3029_93"
-                />
-              </filter>
-              <linearGradient
-                id="paint0_linear_3029_93"
-                x1="824.876"
-                y1="264.849"
-                x2="651.73"
-                y2="796.853"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#5201FF" />
-                <stop offset="1" stopColor="#3EF7B4" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
+        <Background />
         <Providers>
-          {" "}
           <div className="relative z-10">{children}</div>
         </Providers>
       </body>
     </html>
   );
 }
+
+const Background = () => {
+  return (
+    <div className="pointer-events-none absolute inset-0 -z-10">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 980"
+        className="w-full h-full object-cover"
+      >
+        <g filter="url(#filter0_f_3029_93)">
+          <path
+            d="M543.848 759.362C620.723 605.159 330.924 646.271 399.285 458.58C266.545 289.456 575.784 203.754 636.237 170.807L1044.29 374.232L878.222 707.341C788.887 743.024 466.973 913.565 543.848 759.362Z"
+            fill="url(#paint0_linear_3029_93)"
+            fillOpacity="0.5"
+          />
+        </g>
+        <defs>
+          <filter
+            id="filter0_f_3029_93"
+            x="-90.54"
+            y="-286.235"
+            width="1591.87"
+            height="1566.15"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            />
+            <feGaussianBlur
+              stdDeviation="228.52"
+              result="effect1_foregroundBlur_3029_93"
+            />
+          </filter>
+          <linearGradient
+            id="paint0_linear_3029_93"
+            x1="824.876"
+            y1="264.849"
+            x2="651.73"
+            y2="796.853"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#5201FF" />
+            <stop offset="1" stopColor="#3EF7B4" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  );
+};

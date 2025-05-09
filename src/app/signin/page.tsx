@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -17,31 +16,82 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
+import useSignIn from "@/hooks/use-sign-in";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useWalletEssentialsStore } from "@/store/wallet-essentials";
+import { deriveKeyPair } from "@/utils/create-address";
+import { encryptData } from "@/utils/encryption";
 
 const formSchema = z.object({
   seedphrase: z.string().min(2, {
-    message: "seedphrase must be written",
+    message: "Seed phrase must be written",
   }),
-
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
   }),
 });
 
+type FormData = z.infer<typeof formSchema>;
+
 export default function SignPage() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      seedphrase: "",
-
-      password: "",
-    },
   });
+  const signInMutation = useSignIn();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const router = useRouter();
 
+  const { setPlain, setEncrypted } = useWalletEssentialsStore();
+
+  console.log(form.formState.errors);
+
+  const onSubmit: SubmitHandler<FormData> = async (values) => {
+    console.log({ values });
+    try {
+      const keyPair = await deriveKeyPair(values.seedphrase);
+      const address = keyPair.getPublicKey().toSuiAddress();
+      const privateKey = keyPair.getSecretKey();
+      const publicKey = keyPair.getPublicKey().toBase64();
+
+      const encryptedPrivateKey = await encryptData(
+        privateKey,
+        values.password
+      );
+      const encryptedMnemonic = await encryptData(
+        values.seedphrase,
+        values.password
+      );
+
+      const res = await signInMutation.mutateAsync({
+        id: address,
+        email: values.email,
+        password: values.password,
+      });
+
+      setPlain({
+        address,
+        publicKey,
+        accessToken: res.accessToken,
+        scwAddress: res.user.wallet,
+      });
+
+      setEncrypted({
+        privateKey: encryptedPrivateKey,
+        mnemonic: encryptedMnemonic,
+      });
+
+      toast.success("Signin successful!");
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.log(error);
+      toast.error("Signin failed!");
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-1">
       <div className="mb-3">
@@ -67,9 +117,25 @@ export default function SignPage() {
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter your Seed Phrase..."
-                      className="bg-transparent border min-h-[150px] border-[#A8A2F6] px-4 pt-4 pb-2 rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 resize-none"
-                      rows={4}
+                      placeholder="Seedphrase"
+                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 min-h-[100px]"
+                      rows={20}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="ex@mple.com"
+                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -95,14 +161,12 @@ export default function SignPage() {
                 </FormItem>
               )}
             />
-            <Link href="/dashboard">
-              <Button
-                type="submit"
-                className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
-              >
-                Sign In
-              </Button>
-            </Link>
+            <Button
+              type="submit"
+              className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
+            >
+              {signInMutation.isPending ? "Signing in..." : "Signin"}
+            </Button>
           </form>
         </Form>
         <div className="mt-4 text-white text-sm">

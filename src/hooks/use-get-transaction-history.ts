@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/client/axios";
 import { QUERY_KEYS } from "@/app/config/query-keys";
 
-import { STORAGE_KEYS } from "@/app/config/storage-keys";
-import { WalletEssentials } from "@/types";
-
 export type Transaction = {
   amount: string;
   amountSui: string;
@@ -32,13 +29,14 @@ const getTransactionHistory = async (address: string, token: string) => {
       Authorization: `Bearer ${token}`,
     },
     params: {
-      userType: "USER",
+      userType: "MERCHANT",
       id: address,
     },
   });
 };
 
 const useGetTransactionHistory = (address: string, accessToken: string) => {
+  console.log("useGetTransactionHistory", { address, accessToken });
   return useQuery({
     queryKey: [QUERY_KEYS.GET_TRANSACTION_HISTORY],
     queryFn: async () => {
