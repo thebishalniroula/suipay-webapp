@@ -14,14 +14,15 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import AddBox from "@/components/AddBox";
-import { AddProductParams } from "@/hooks/use-add-product";
+import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
+import useGetWebhooks from "@/hooks/use-get-webhooks";
+import toast from "react-hot-toast";
+import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
 
 export default function AddProductModal({
-  onAddProduct,
   open,
   setOpen,
 }: {
-  onAddProduct: (product: AddProductParams) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
@@ -35,31 +36,57 @@ export default function AddProductModal({
   const [price, setPrice] = useState("");
   const [duration, setDuration] = useState("");
 
-  const webhooks = ["Youtube", "Spotify", "Softflix", "Supermoon"];
+  const { data } = useGetWebhooks();
 
-  const handleAddProduct = () => {
-    if (!name || !price) return;
+  const addProductMutation = useAddProduct();
 
-    onAddProduct({
-      name,
-      price,
-      recurringPeriod: +duration,
+  const linkProductWebhookMutation = useLinkProductWebhook();
 
-      // this does not need to be passed here, instead calculate duration in seconds and pass the duration in seconds in above recurringPeriod paramerter
-      // durationUnit,
+  const addProduct = async (product: AddProductParams) => {
+    try {
+      const res = await addProductMutation.mutateAsync(product);
+      toast.success("Product created successfully");
+      return res;
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
-      // this has not been implemented yet in the backend
-      // webhook: linkedWebhook,
-    });
+  const handleAddProduct = async () => {
+    try {
+      if (!name || !price) return;
 
-    setIsOpen(false);
-    setName("");
-    setPrice("");
-    setDuration("");
-    setLinkedWebhook(null);
-    setSubscriptionType("onetime");
-    setDurationUnit("Month");
-    setShowUnits(false);
+      const res = await addProduct({
+        name,
+        price,
+        recurringPeriod: +duration,
+
+        // this does not need to be passed here, instead calculate duration in seconds and pass the duration in seconds in above recurringPeriod paramerter
+        // durationUnit,
+      });
+
+      const productId = res?.product.id;
+      const webhookid = linkedWebhook;
+
+      if (productId && webhookid) {
+        await linkProductWebhookMutation.mutateAsync({
+          productId,
+          webhookId: webhookid,
+        });
+      }
+
+      toast.success("Linked to webhook successfully");
+
+      setIsOpen(false);
+      setName("");
+      setPrice("");
+      setDuration("");
+      setLinkedWebhook(null);
+      setSubscriptionType("onetime");
+      setDurationUnit("Month");
+      setShowUnits(false);
+    } catch (error) {}
   };
 
   return (
@@ -195,9 +222,15 @@ export default function AddProductModal({
 
             <Button
               onClick={handleAddProduct}
-              className="w-full bg-[#7E7AF2] hover:bg-[#7a4ee6] rounded-lg py-6 text-white"
+              className="w-full bg-[#7E7AF2] hover:bg-[#7a4ee6] rounded-lg py-6 text-white cursor-pointer"
             >
-              Add Product
+              {!linkProductWebhookMutation.isPending &&
+              addProductMutation.isPending
+                ? "Adding..."
+                : "Add Product"}
+              {linkProductWebhookMutation.isPending &&
+                !linkProductWebhookMutation.isPending &&
+                "Linking..."}
             </Button>
           </div>
         </DialogContent>
@@ -210,17 +243,17 @@ export default function AddProductModal({
           </DialogHeader>
 
           <div className="space-y-3">
-            {webhooks.map((hook) => (
+            {data?.webhooks.map((hook, index) => (
               <div
-                key={hook}
+                key={hook.url + index}
                 className="flex justify-between items-center bg-transparent rounded-lg px-4 py-3 border border-[#2C2E4A]"
               >
-                <span className="text-white font-medium">{hook}</span>
+                <span className="text-white font-medium">{hook.url}</span>
                 <Button
                   variant="ghost"
                   className="border cursor-pointer border-[#8B5CF6] text-white hover:bg-[#2a2655] px-3 py-1 text-sm rounded-md"
                   onClick={() => {
-                    setLinkedWebhook(hook);
+                    setLinkedWebhook(hook.id);
                     setIsWebhookDialogOpen(false);
                   }}
                 >

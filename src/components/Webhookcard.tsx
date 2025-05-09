@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X, Eye, EyeOff } from "lucide-react";
+import { Webhook } from "@/hooks/use-get-webhooks";
 
-export default function WebhookCard({ hook }: { hook: any }) {
+export default function WebhookCard({ hook }: { hook: Webhook }) {
   const [visible, setVisible] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(hook.secretKey);
+    navigator.clipboard.writeText(hook.secret);
   };
 
   const handleToggleVisibility = () => {
@@ -37,7 +38,7 @@ export default function WebhookCard({ hook }: { hook: any }) {
         <p className="text-sm text-[#7E7AF2] mb-1">Secret Key</p>
         <div className="flex items-center gap-2">
           <p className="flex-1 truncate text-sm font-mono">
-            {visible ? hook.secretKey : "************************"}
+            {visible ? hook.secret : "************************"}
           </p>
           <div className="flex items-center gap-1">
             <Button
