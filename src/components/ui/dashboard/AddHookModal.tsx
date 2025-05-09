@@ -7,10 +7,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import AddBox from "@/components/AddBox";
 
 export default function AddWebhookModal({
@@ -23,7 +21,9 @@ export default function AddWebhookModal({
 
   const handleAdd = () => {
     if (!url) return;
-    onAddWebhook({ url, id: crypto.randomUUID() });
+
+    const secretKey = Array(40).fill("*").join("");
+    onAddWebhook({ url, id: crypto.randomUUID(), secretKey });
     setUrl("");
     setIsOpen(false);
   };
