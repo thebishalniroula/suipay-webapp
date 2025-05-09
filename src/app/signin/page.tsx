@@ -40,11 +40,6 @@ type FormData = z.infer<typeof formSchema>;
 export default function SignPage() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      seedphrase: "",
-      email: "",
-      password: "",
-    },
   });
   const signInMutation = useSignIn();
 
@@ -52,19 +47,25 @@ export default function SignPage() {
 
   const { setPlain, setEncrypted } = useWalletEssentialsStore();
 
+  console.log(form.formState.errors);
+
   const onSubmit: SubmitHandler<FormData> = async (values) => {
-    const keyPair = await deriveKeyPair(values.seedphrase);
-    const address = keyPair.getPublicKey().toSuiAddress();
-    const privateKey = keyPair.getSecretKey();
-    const publicKey = keyPair.getPublicKey().toBase64();
-
-    const encryptedPrivateKey = await encryptData(privateKey, values.password);
-    const encryptedMnemonic = await encryptData(
-      values.seedphrase,
-      values.password
-    );
-
+    console.log({ values });
     try {
+      const keyPair = await deriveKeyPair(values.seedphrase);
+      const address = keyPair.getPublicKey().toSuiAddress();
+      const privateKey = keyPair.getSecretKey();
+      const publicKey = keyPair.getPublicKey().toBase64();
+
+      const encryptedPrivateKey = await encryptData(
+        privateKey,
+        values.password
+      );
+      const encryptedMnemonic = await encryptData(
+        values.seedphrase,
+        values.password
+      );
+
       const res = await signInMutation.mutateAsync({
         id: address,
         email: values.email,
@@ -87,10 +88,10 @@ export default function SignPage() {
 
       router.push("/dashboard");
     } catch (error) {
+      console.log(error);
       toast.error("Signin failed!");
     }
   };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-1">
       <div className="mb-3">
@@ -152,7 +153,7 @@ export default function SignPage() {
                     <Input
                       placeholder="Password"
                       type="password"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -160,14 +161,12 @@ export default function SignPage() {
                 </FormItem>
               )}
             />
-            <Link href="/dashboard">
-              <Button
-                type="submit"
-                className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
-              >
-                Sign In
-              </Button>
-            </Link>
+            <Button
+              type="submit"
+              className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
+            >
+              {signInMutation.isPending ? "Signing in..." : "Signin"}
+            </Button>
           </form>
         </Form>
         <div className="mt-4 text-white text-sm">

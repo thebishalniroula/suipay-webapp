@@ -4,20 +4,32 @@ import { useState } from "react";
 import AddProductModal from "@/components/ui/dashboard/AddProductModal";
 import { Button } from "@/components/ui/button";
 import AddBox from "@/components/AddBox";
+import useGetProducts from "@/hooks/use-get-products";
+import { formatDuration } from "@/lib/utils";
+import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
+import toast from "react-hot-toast";
 
 export default function Products() {
-  const [products, setProducts] = useState<any[]>([]);
   const [productModalOpen, setProductModalOpen] = useState(false);
+  const { data: products } = useGetProducts();
 
-  const addProduct = (product: any) => {
-    setProducts((prev) => [...prev, { ...product, id: crypto.randomUUID() }]);
+  const addProductMutation = useAddProduct();
+
+  const addProduct = async (product: AddProductParams) => {
+    try {
+      const res = await addProductMutation.mutateAsync(product);
+      toast.success("Product created successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
     <div className="flex min-h-screen">
       <main className="flex-1 px-8 py-6 relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-2">
-          {products.map((product) => (
+          {products?.products.map((product) => (
             <div
               key={product.id}
               className="rounded-2xl border border-[#47278C] bg-tranaparent p-5 text-white shadow-sm min-h-[220px] flex flex-col justify-between"
@@ -45,17 +57,17 @@ export default function Products() {
                 <div className="flex justify-between">
                   <span>Product Type:</span>
                   <span className="font-semibold text-white capitalize">
-                    {product.subscriptionType === "subscription"
+                    {product.productType === "SUBSCRIPTION"
                       ? "Subscription"
                       : "Onetime"}
                   </span>
                 </div>
 
-                {product.subscriptionType === "subscription" && (
+                {product.productType === "SUBSCRIPTION" && (
                   <div className="flex justify-between">
                     <span>Duration:</span>
                     <span className="font-semibold text-white">
-                      {product.duration} {product.durationUnit}
+                      {formatDuration(product.recurringPeriod)}
                     </span>
                   </div>
                 )}

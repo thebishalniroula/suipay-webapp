@@ -13,7 +13,7 @@ export default function Home() {
           </div>
           <span className="text-[24px] font-meduim text-white">SuiPay</span>
         </div>
-        <Button className="bg-[#7E7AF2] hover:bg-[#5a52d5] text-white rounded-[20px] px-6 py-6 flex font-medium text-[18px] items-center">
+        <Button className="bg-[#7E7AF2] hover:bg-[#5a52d5] h-[59px] text-white rounded-[20px] px-6 py-6 flex font-medium text-[18px] items-center">
           <Link href="/signup">
             Access App
             <span className="ml-1 inline-flex items-center">
@@ -44,7 +44,7 @@ export default function Home() {
 
         <div className="flex flex-row items-center justify-center gap-4 mt-8">
           <Link href="/signup">
-            <Button className="bg-[#6c63ff] hover:bg-[#5a52d5] text-white rounded-full px-6 py-6 flex items-center">
+            <Button className="bg-[#6c63ff] h-[59px] hover:bg-[#5a52d5] text-white rounded-full px-6 py-6 flex items-center">
               Access App{" "}
               <span className="ml-1">
                 <MdArrowOutward />
@@ -54,7 +54,7 @@ export default function Home() {
 
           <Button
             variant="outline"
-            className="text-[#000000] bg-[#CFC4E7] rounded-full px-6 py-6"
+            className="text-[#000000] h-[59px] bg-[#CFC4E7] rounded-full px-6 py-6"
           >
             Documentation
           </Button>
