@@ -41,6 +41,7 @@ const addProduct = async (params: Request, accessToken: string) => {
 export type AddProductParams = {
   name: string;
   price: string;
+
   recurringPeriod: number;
 };
 
