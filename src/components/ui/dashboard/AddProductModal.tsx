@@ -66,7 +66,16 @@ export default function AddProductModal({
 
   const handleAddProduct = async () => {
     try {
-      if (!name || !price) return;
+      if (!name.trim()) {
+        toast.error("Product name is required.");
+        return;
+      }
+
+      const parsedPrice = parseFloat(price);
+      if (!price || isNaN(parsedPrice) || parsedPrice <= 0) {
+        toast.error("Enter a valid price.");
+        return;
+      }
 
       const priceInMist = parseFloat(price) * 1_000_000_000;
       const recurringPeriod =
@@ -247,10 +256,12 @@ export default function AddProductModal({
               onClick={handleAddProduct}
               className="w-full bg-[#7E7AF2] hover:bg-[#7a4ee6] rounded-lg py-6 text-white cursor-pointer"
             >
-              {!linkProductWebhookMutation.isPending &&
-              addProductMutation.isPending
+              {addProductMutation.isPending
                 ? "Adding..."
+                : linkProductWebhookMutation.isPending
+                ? "Linking..."
                 : "Add Product"}
+
               {linkProductWebhookMutation.isPending &&
                 !linkProductWebhookMutation.isPending &&
                 "Linking..."}
