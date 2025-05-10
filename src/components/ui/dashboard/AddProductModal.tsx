@@ -18,6 +18,7 @@ import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
 import useGetWebhooks from "@/hooks/use-get-webhooks";
 import toast from "react-hot-toast";
 import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
+import { MIST_PER_SUI } from "@mysten/sui/dist/cjs/utils";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
   const num = parseInt(value, 10);
@@ -77,7 +78,9 @@ export default function AddProductModal({
         return;
       }
 
-      const priceInMist = parseFloat(price) * 1_000_000_000;
+      const priceInMist = BigInt(
+        Math.round(parsedPrice * Number(MIST_PER_SUI))
+      );
       const recurringPeriod =
         subscriptionType === "subscription"
           ? getDurationInSeconds(duration, durationUnit)
@@ -147,7 +150,8 @@ export default function AddProductModal({
             />
             {price && (
               <p className="text-xs text-gray-400 px-1">
-                ≈ {(parseFloat(price) * 1_000_000_000).toLocaleString()} MIST
+                ≈ {(parseFloat(price) * Number(MIST_PER_SUI)).toLocaleString()}{" "}
+                MIST
               </p>
             )}
 
