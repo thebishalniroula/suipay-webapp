@@ -4,11 +4,21 @@ import { useState } from "react";
 import AddProductModal from "@/components/ui/dashboard/AddProductModal";
 import { Button } from "@/components/ui/button";
 import useGetProducts from "@/hooks/use-get-products";
-import { formatDuration } from "@/lib/utils";
+import { formatDuration, mistToSui } from "@/lib/utils";
+import toast from "react-hot-toast";
 
 export default function Products() {
   const [productModalOpen, setProductModalOpen] = useState(false);
   const { data: products } = useGetProducts();
+  const handleCopy = (str: string) => {
+    try {
+      navigator.clipboard.writeText(str);
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -30,7 +40,7 @@ export default function Products() {
                   size="sm"
                   variant="ghost"
                   className="text-sm border border-[#8B5CF6] px-3 py-1 text-white hover:bg-[#2a2655] rounded-md"
-                  onClick={() => navigator.clipboard.writeText(product.id)}
+                  onClick={() => handleCopy(product.id)}
                 >
                   Copy ID
                 </Button>
@@ -60,7 +70,7 @@ export default function Products() {
                 <div className="flex justify-between">
                   <span>Price:</span>
                   <span className="font-semibold text-white">
-                    {product.price} SUI
+                    {mistToSui(+product.price)} SUI
                   </span>
                 </div>
               </div>

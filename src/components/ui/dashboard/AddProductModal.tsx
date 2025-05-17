@@ -18,6 +18,9 @@ import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
 import useGetWebhooks from "@/hooks/use-get-webhooks";
 import toast from "react-hot-toast";
 import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
+import { useSuiClient } from "@mysten/dapp-kit";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/app/config/query-keys";
 
 export default function AddProductModal({
   open,
@@ -41,11 +44,14 @@ export default function AddProductModal({
   const addProductMutation = useAddProduct();
 
   const linkProductWebhookMutation = useLinkProductWebhook();
-
+  const queryClient = useQueryClient();
   const addProduct = async (product: AddProductParams) => {
     try {
       const res = await addProductMutation.mutateAsync(product);
       toast.success("Product created successfully");
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_PRODUCTS],
+      });
       return res;
     } catch (error) {
       console.log(error);
