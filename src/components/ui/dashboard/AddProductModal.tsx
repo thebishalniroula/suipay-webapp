@@ -21,6 +21,18 @@ import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
 import { useSuiClient } from "@mysten/dapp-kit";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/app/config/query-keys";
+import { MIST_PER_SUI } from "@mysten/sui/utils";
+
+const getDurationInSeconds = (value: string, unit: string): number => {
+  const num = parseInt(value, 10);
+  const multipliers: Record<string, number> = {
+    Min: 60,
+    Days: 86400,
+    Month: 2592000,
+    Year: 31536000,
+  };
+  return num * (multipliers[unit] || 0);
+};
 
 export default function AddProductModal({
   open,
@@ -61,15 +73,29 @@ export default function AddProductModal({
 
   const handleAddProduct = async () => {
     try {
-      if (!name || !price) return;
+      if (!name.trim()) {
+        toast.error("Product name is required.");
+        return;
+      }
 
-      const res = await addProduct({
+      const parsedPrice = parseFloat(price);
+      if (!price || isNaN(parsedPrice) || parsedPrice <= 0) {
+        toast.error("Enter a valid price.");
+        return;
+      }
+
+      const priceInMist = BigInt(
+        Math.round(parsedPrice * Number(MIST_PER_SUI))
+      );
+      const recurringPeriod =
+        subscriptionType === "subscription"
+          ? getDurationInSeconds(duration, durationUnit)
+          : 0;
+
+      const res = await addProductMutation.mutateAsync({
         name,
-        price,
-        recurringPeriod: +duration,
-
-        // this does not need to be passed here, instead calculate duration in seconds and pass the duration in seconds in above recurringPeriod paramerter
-        // durationUnit,
+        price: priceInMist.toString(),
+        recurringPeriod,
       });
 
       const productId = res?.product.id;
@@ -125,11 +151,18 @@ export default function AddProductModal({
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
+            {price && (
+              <p className="text-xs text-gray-400 px-1">
+                ≈ {(parseFloat(price) * Number(MIST_PER_SUI)).toLocaleString()}{" "}
+                MIST
+              </p>
+            )}
 
             {linkedWebhook ? (
-              <div className="flex justify-between items-center bg-[#1E1D33] border border-[#8B5CF6] px-4 py-3 rounded-lg">
-                <span className="text-[#7E7AF2] font-medium">
-                  {linkedWebhook}
+              <div className="flex gap-2 items-start bg-[#1E1D33] border border-[#8B5CF6] px-4 py-3 rounded-lg w-full max-w-full">
+                <span className="text-[#7E7AF2] font-medium break-all text-sm flex-1">
+                  {data?.webhooks.find((w) => w.id === linkedWebhook)?.url ??
+                    "Webhook not found"}
                 </span>
                 <Button
                   onClick={() => setLinkedWebhook(null)}
@@ -142,7 +175,7 @@ export default function AddProductModal({
             ) : (
               <Button
                 onClick={() => setIsWebhookDialogOpen(true)}
-                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 cursor-pointer rounded-lg hover:bg-[#1a1a2e] transition"
+                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 cursor-pointer break-all rounded-lg hover:bg-[#1a1a2e] transition"
               >
                 + Link Web hook
               </Button>
@@ -230,10 +263,12 @@ export default function AddProductModal({
               onClick={handleAddProduct}
               className="w-full bg-[#7E7AF2] hover:bg-[#7a4ee6] rounded-lg py-6 text-white cursor-pointer"
             >
-              {!linkProductWebhookMutation.isPending &&
-              addProductMutation.isPending
+              {addProductMutation.isPending
                 ? "Adding..."
+                : linkProductWebhookMutation.isPending
+                ? "Linking..."
                 : "Add Product"}
+
               {linkProductWebhookMutation.isPending &&
                 !linkProductWebhookMutation.isPending &&
                 "Linking..."}
@@ -252,9 +287,11 @@ export default function AddProductModal({
             {data?.webhooks.map((hook, index) => (
               <div
                 key={hook.url + index}
-                className="flex justify-between items-center bg-transparent rounded-lg px-4 py-3 border border-[#2C2E4A]"
+                className="flex gap-3 items-start bg-transparent rounded-lg px-4 py-3 border border-[#2C2E4A]"
               >
-                <span className="text-white font-medium">{hook.url}</span>
+                <span className="text-white font-medium break-all text-sm flex-1">
+                  {hook.url}
+                </span>
                 <Button
                   variant="ghost"
                   className="border cursor-pointer border-[#8B5CF6] text-white hover:bg-[#2a2655] px-3 py-1 text-sm rounded-md"

@@ -25,15 +25,14 @@ export default function Dashboard() {
     plain: { address },
   } = useWalletEssentialsStore();
   const { data: balance } = useGetBalance(address);
-  const { mutateAsync: sendSui } = useSendSui();
-  const { control, handleSubmit, register, formState } = useForm({
+  const { mutateAsync: sendSui, isPending: isSendingSui } = useSendSui();
+  const { control, handleSubmit, register, formState, reset } = useForm({
     resolver: zodResolver(zSendSuiSchema),
     defaultValues: {
       amount: 0,
       toAddress: "",
     },
   });
-
   const onSubmit: SubmitHandler<SendSuiForm> = async (data) => {
     try {
       const res = await sendSui({
@@ -41,6 +40,8 @@ export default function Dashboard() {
         toAddress: data.toAddress,
       });
       toast.success("Sui sent successfully");
+      reset();
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -108,16 +109,19 @@ export default function Dashboard() {
 
           <div className="flex w-full gap-4">
             <Button
+              disabled={isSendingSui}
+              onClick={() => router.push("/dashboard")}
               className="flex-1 bg-[#CFC4E7] text-black font-semibold py-6 px-4 rounded-lg hover:bg-[#b9aee2] transition-colors duration-200"
               type="button"
             >
               Cancel
             </Button>
             <Button
+              disabled={isSendingSui}
               type="submit"
               className="flex-1 bg-[#6c63ff] text-white font-semibold py-6 px-4 rounded-lg hover:bg-[#5a52d5] transition-colors duration-200"
             >
-              Send
+              {isSendingSui ? "Sending..." : "Send"}
             </Button>
           </div>
         </div>

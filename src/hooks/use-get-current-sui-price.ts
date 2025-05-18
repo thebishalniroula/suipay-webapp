@@ -1,15 +1,23 @@
 import { QUERY_KEYS } from "@/app/config/query-keys";
+import { axiosInstance } from "@/client/axios";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React from "react";
 
-const getSuiPriceUSD = async () => {
-  const res = await axios.get<{ sui: { usd: number } }>(
-    "https://api.coingecko.com/api/v3/simple/price?ids=sui&vs_currencies=usd"
-  );
-  return res.data.sui.usd;
+type Response = {
+  symbol: "SUI";
+  name: "Sui";
+  price: number;
+  percent_change_24h: number;
+  market_cap: number;
+  volume_24h: number;
+  last_updated: string;
 };
 
+async function getSuiPriceUSD() {
+  const response = await axiosInstance.get<Response>("/price");
+  return response.data.price;
+}
+
+// @TOOD: Cache this to local storage
 const useGetCurrentSuiPrice = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SUI_VALUE],

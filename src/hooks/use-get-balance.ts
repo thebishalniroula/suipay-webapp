@@ -48,7 +48,7 @@ const useGetBalance = (address: string) => {
           : "...",
       };
     },
-    enabled: !!address,
+    enabled: !!address && !!suiPrice,
   });
 };
 

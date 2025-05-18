@@ -1,17 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
+
 import { IoIosArrowRoundUp } from "react-icons/io";
 import Link from "next/link";
-import { MIST_PER_SUI } from "@mysten/sui/dist/cjs/utils";
+
 import { TransactionItem } from "@/components/TransactionItem";
 import useGetTransactionHistory from "@/hooks/use-get-transaction-history";
 
-import { WalletEssentials } from "@/types";
-import { STORAGE_KEYS } from "../config/storage-keys";
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import useGetBalance from "@/hooks/use-get-balance";
+import { GoArrowDown } from "react-icons/go";
 
 export default function Dashboard() {
   const { plain, encrypted } = useWalletEssentialsStore();
@@ -34,7 +33,7 @@ export default function Dashboard() {
           <div className="flex gap-4 mb-6">
             <Link href="/dashboard/deposit" className="flex-1">
               <Button className="w-full bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium h-[65px] px-4 rounded-[26px] flex items-center justify-center">
-                <ArrowDown className="w-5 h-5 mr-2" />
+                <GoArrowDown className="w-5 h-5 mr-2" />
                 Deposit
               </Button>
             </Link>
