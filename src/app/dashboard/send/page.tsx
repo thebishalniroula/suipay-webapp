@@ -28,6 +28,10 @@ export default function Dashboard() {
   const { mutateAsync: sendSui } = useSendSui();
   const { control, handleSubmit, register, formState } = useForm({
     resolver: zodResolver(zSendSuiSchema),
+    defaultValues: {
+      amount: 0,
+      toAddress: "",
+    },
   });
 
   const onSubmit: SubmitHandler<SendSuiForm> = async (data) => {
@@ -77,13 +81,13 @@ export default function Dashboard() {
               name="amount"
               render={({ field }) => (
                 <input
-                  type="text"
-                  placeholder="Amount"
+                  type="number"
+                  // pattern="^\d+(\.\d+)?$"
                   className="flex-1 bg-transparent py-3 text-white placeholder-gray-400 focus:outline-none"
                   {...field}
                   onChange={(e) => {
-                    const numericValue = e.target.value.replace(/[^0-9.]/g, ""); // Allow only digits
-                    field.onChange(+numericValue);
+                    const inputValue = e.target.value;
+                    field.onChange(+inputValue);
                   }}
                 />
               )}
