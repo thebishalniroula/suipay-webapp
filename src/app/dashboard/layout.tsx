@@ -3,8 +3,7 @@
 import { Sidebar } from "@/components/ui/dashboard/sidebar";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "react-hot-toast";
-
-const walletAddress = "0x38-hvftyyfv-f";
+import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 
 export default function DashboardLayout({
   children,
@@ -32,15 +31,22 @@ export default function DashboardLayout({
             },
           }}
         />
-
-        <header className="w-full flex justify-end items-center px-6 py-4 bg-transparent">
-          <Button className="bg-[#6c63ff] text-white rounded-[15px] px-4 py-2">
-            {walletAddress}
-          </Button>
-        </header>
-
+        {/* <Header /> */}
         <main className="flex-1 px-4 pt-4">{children}</main>
       </div>
     </div>
   );
 }
+
+const Header = () => {
+  const {
+    plain: { address },
+  } = useWalletEssentialsStore();
+  return (
+    <header className="w-full flex justify-end items-center px-6 py-4 bg-transparent">
+      <Button className="bg-[#6c63ff] text-white rounded-[15px] px-4 py-2">
+        {address}
+      </Button>
+    </header>
+  );
+};

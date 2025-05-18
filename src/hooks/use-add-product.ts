@@ -55,12 +55,9 @@ const useAddProduct = () => {
 
   return useMutation({
     mutationFn: async (params: AddProductParams) => {
-      console.log({ params });
       const txn = createAddProductTxnBlock({ ...params, scwAddress });
 
       const keyPair = Ed25519Keypair.fromSecretKey(privateKey);
-
-      console.log("sui address", keyPair.toSuiAddress());
 
       txn.setSender(keyPair.toSuiAddress());
 
@@ -70,9 +67,6 @@ const useAddProduct = () => {
 
       const signature = await keyPair.signTransaction(txBytes);
 
-      console.log({
-        ...signature,
-      });
       return addProduct(signature, accessToken);
     },
   });
@@ -80,14 +74,12 @@ const useAddProduct = () => {
 
 export default useAddProduct;
 
-/*************  ✨ Windsurf Command ⭐  *************/
 /**
  * Create a transaction block that adds a product.
  * @param params The parameters to the `createOneTimeProduct` or `createRecurrentProduct` function.
  * This includes the name, price, and scwAddress of the product, as well as the recurring period if it is a recurring product.
  * @returns The transaction block.
  */
-/*******  d0397667-8c1d-4de5-8132-98d85a9d2dd2  *******/
 const createAddProductTxnBlock = (
   params: AddProductParams & { scwAddress: string }
 ): Transaction => {
@@ -98,7 +90,6 @@ const createAddProductTxnBlock = (
   const target = `${PackageId}::product::${function_name}`;
   const txn = new Transaction();
 
-  console.log({ params, ProductRegistry });
   txn.moveCall({
     target,
     arguments: [
@@ -107,7 +98,7 @@ const createAddProductTxnBlock = (
       txn.object(ProductRegistry),
       // pass this only if recurring period is non zero.
       ...(!!params.recurringPeriod
-        ? [txn.pure.u64(params.recurringPeriod)]
+        ? [txn.pure.u64(params.recurringPeriod * 1000)] // convert to milliseconds
         : []),
       txn.object(params.scwAddress),
     ],

@@ -18,6 +18,9 @@ import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
 import useGetWebhooks from "@/hooks/use-get-webhooks";
 import toast from "react-hot-toast";
 import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
+import { useSuiClient } from "@mysten/dapp-kit";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/app/config/query-keys";
 import { MIST_PER_SUI } from "@mysten/sui/utils";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
@@ -53,11 +56,14 @@ export default function AddProductModal({
   const addProductMutation = useAddProduct();
 
   const linkProductWebhookMutation = useLinkProductWebhook();
-
+  const queryClient = useQueryClient();
   const addProduct = async (product: AddProductParams) => {
     try {
       const res = await addProductMutation.mutateAsync(product);
       toast.success("Product created successfully");
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_PRODUCTS],
+      });
       return res;
     } catch (error) {
       console.log(error);
@@ -91,9 +97,6 @@ export default function AddProductModal({
         price: priceInMist.toString(),
         recurringPeriod,
       });
-
-      // this does not need to be passed here, instead calculate duration in seconds and pass the duration in seconds in above recurringPeriod paramerter
-      // durationUnit,
 
       const productId = res?.product.id;
       const webhookid = linkedWebhook;

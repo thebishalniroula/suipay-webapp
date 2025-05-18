@@ -16,12 +16,15 @@ export function Sidebar() {
 
   return (
     <aside className="w-48 pt-6 px-4 flex flex-col">
-      <div className="flex items-center gap-2 mb-12 pl-2">
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-2 mb-12 pl-2 cursor-pointer"
+      >
         <div className="text-white">
           <Image src="/logo.svg" alt="logo" width={33} height={33} />
         </div>
         <span className="text-xl font-semibold text-white">SuiPay</span>
-      </div>
+      </Link>
 
       <nav className="flex flex-col space-y-4">
         <Link href="/dashboard" className={linkClass("/dashboard")}>

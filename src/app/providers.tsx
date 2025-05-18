@@ -11,7 +11,7 @@ import { decryptData, EncryptedData } from "@/utils/encryption";
 import { getCookie } from "cookies-next";
 
 const networks = {
-  devnet: { url: "https://fullnode.devnet.sui.io:443" },
+  testnet: { url: "https://fullnode.testnet.sui.io:443" },
 };
 
 export function Providers({ children }: { children: ReactNode }) {
@@ -33,7 +33,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={client}>
-      <SuiClientProvider networks={networks} defaultNetwork="devnet">
+      <SuiClientProvider networks={networks} defaultNetwork="testnet">
         {plain.accessToken && !privateKey && (
           <PasswordPrompt onSubmit={handleSubmit} />
         )}

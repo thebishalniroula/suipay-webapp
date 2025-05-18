@@ -1,3 +1,4 @@
+import { MIST_PER_SUI } from "@mysten/sui/utils";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -25,3 +26,5 @@ export function formatDuration(seconds: number) {
 
   return "0 seconds";
 }
+
+export const mistToSui = (mist: number) => mist / Number(MIST_PER_SUI);
