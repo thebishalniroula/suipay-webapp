@@ -9,13 +9,14 @@ import { TransactionItem } from "@/components/TransactionItem";
 import useGetTransactionHistory from "@/hooks/use-get-transaction-history";
 
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
+import useGetBalance from "@/hooks/use-get-balance";
 import { GoArrowDown } from "react-icons/go";
 
 export default function Dashboard() {
   const { plain, encrypted } = useWalletEssentialsStore();
 
   const history = useGetTransactionHistory(plain.address, plain.accessToken);
-  const balance = 55.43;
+  const { data: balance } = useGetBalance(plain.address);
 
   return (
     <div className="flex min-h-screen">
@@ -23,8 +24,10 @@ export default function Dashboard() {
         <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-md">
           <div className="mb-6">
             <p className="text-gray-400 mb-1">Balance</p>
-            <h2 className="text-4xl font-bold text-white">{balance} SUI</h2>
-            <p className="text-[#6c63ff]">${(balance * 2.02).toFixed(2)}</p>
+            <h2 className="text-4xl font-bold text-white">
+              {balance?.balance} SUI
+            </h2>
+            <p className="text-[#6c63ff]">${balance?.balanceInUSD ?? ".."}</p>
           </div>
 
           <div className="flex gap-4 mb-6">

@@ -13,6 +13,7 @@ async function isAuthenticated(req: NextRequest): Promise<boolean> {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
     if (res.status === 200) {
       return true;
     }
