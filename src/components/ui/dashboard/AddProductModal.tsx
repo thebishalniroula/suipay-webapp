@@ -18,7 +18,7 @@ import useAddProduct, { AddProductParams } from "@/hooks/use-add-product";
 import useGetWebhooks from "@/hooks/use-get-webhooks";
 import toast from "react-hot-toast";
 import useLinkProductWebhook from "@/hooks/use-link-product-webhook";
-import { MIST_PER_SUI } from "@mysten/sui/dist/cjs/utils";
+import { MIST_PER_SUI } from "@mysten/sui/utils";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
   const num = parseInt(value, 10);
