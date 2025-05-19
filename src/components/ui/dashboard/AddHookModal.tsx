@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import AddBox from "@/components/AddBox";
 import toast from "react-hot-toast";
 import useAddWebhook from "@/hooks/use-add-webhook";
+import Spinner from "@/icons/spinner";
 
 export default function AddWebhookModal({
   isOpen,
@@ -64,8 +65,10 @@ export default function AddWebhookModal({
           <Button
             type="button"
             onClick={handleAdd}
-            className="bg-[#7E7AF2] h-[49px] hover:bg-[#7a4ee6] rounded-lg px-4 py-[0.6875rem]"
+            className="bg-[#7E7AF2] h-[49px] hover:bg-[#7a4ee6] rounded-lg px-4 py-[0.6875rem] flex items-center justify-center gap-2 text-white"
+            disabled={addHookMut.isPending}
           >
+            {addHookMut.isPending && <Spinner />}
             {addHookMut.isPending ? "Generating" : "Generate Key"}
           </Button>
         </form>

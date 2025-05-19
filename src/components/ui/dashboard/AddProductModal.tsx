@@ -22,6 +22,7 @@ import { useSuiClient } from "@mysten/dapp-kit";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/app/config/query-keys";
 import { MIST_PER_SUI } from "@mysten/sui/utils";
+import Spinner from "@/icons/spinner";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
   const num = parseInt(value, 10);
@@ -167,7 +168,7 @@ export default function AddProductModal({
                 <Button
                   onClick={() => setLinkedWebhook(null)}
                   className="text-sm px-3 py-1 border border-[#8B5CF6] text-white hover:bg-[#2a2655] rounded-md"
-                  variant="ghost"
+                  variant="outline"
                 >
                   Unlink
                 </Button>
@@ -219,12 +220,12 @@ export default function AddProductModal({
                   />
                   {!showUnits && (
                     <Button
+                      rightIcon={<MdOutlineKeyboardArrowDown />}
                       type="button"
                       onClick={() => setShowUnits(true)}
-                      className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-white px-2 py-1 focus:outline-none flex items-center gap-1"
+                      className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent hover:bg-transparent text-white px-2 py-1 flex items-center gap-1"
                     >
                       {durationUnit}
-                      <MdOutlineKeyboardArrowDown />
                     </Button>
                   )}
                 </div>
@@ -261,17 +262,21 @@ export default function AddProductModal({
 
             <Button
               onClick={handleAddProduct}
-              className="w-full bg-[#7E7AF2] hover:bg-[#7a4ee6] rounded-lg py-6 text-white cursor-pointer"
+              variant="primary"
+              size="md"
+              className="w-full uppercase flex items-center justify-center gap-2"
+              disabled={
+                addProductMutation.isPending ||
+                linkProductWebhookMutation.isPending
+              }
             >
+              {(addProductMutation.isPending ||
+                linkProductWebhookMutation.isPending) && <Spinner />}
               {addProductMutation.isPending
                 ? "Adding..."
                 : linkProductWebhookMutation.isPending
                 ? "Linking..."
                 : "Add Product"}
-
-              {linkProductWebhookMutation.isPending &&
-                !linkProductWebhookMutation.isPending &&
-                "Linking..."}
             </Button>
           </div>
         </DialogContent>
@@ -293,7 +298,7 @@ export default function AddProductModal({
                   {hook.url}
                 </span>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   className="border cursor-pointer border-[#8B5CF6] text-white hover:bg-[#2a2655] px-3 py-1 text-sm rounded-md"
                   onClick={() => {
                     setLinkedWebhook(hook.id);

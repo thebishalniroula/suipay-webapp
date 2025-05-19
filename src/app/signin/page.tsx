@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { deriveKeyPair } from "@/utils/create-address";
 import { encryptData } from "@/utils/encryption";
+import Spinner from "@/icons/spinner";
 
 const formSchema = z.object({
   seedphrase: z.string().min(2, {
@@ -135,7 +136,7 @@ export default function SignPage() {
                   <FormControl>
                     <Input
                       placeholder="ex@mple.com"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 h-[79px]  rounded-[20px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -153,7 +154,7 @@ export default function SignPage() {
                     <Input
                       placeholder="Password"
                       type="password"
-                      className="bg-transparent border-[#A8A2F6] px-4 h-[65px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="bg-transparent border-[#A8A2F6] px-4 py-6 h-[79px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
                       {...field}
                     />
                   </FormControl>
@@ -161,11 +162,16 @@ export default function SignPage() {
                 </FormItem>
               )}
             />
+
             <Button
               type="submit"
-              className="w-full bg-[#7E7AF2] hover:bg-[#5a52d5] text-white font-medium uppercase py-6 rounded-[15px]"
+              variant="primary"
+              size="md"
+              className="w-full uppercase flex items-center justify-center gap-2"
+              disabled={signInMutation.isPending}
             >
-              {signInMutation.isPending ? "Signing in..." : "Signin"}
+              {signInMutation.isPending && <Spinner />}
+              {signInMutation.isPending ? "Signing in..." : "Sign in"}
             </Button>
           </form>
         </Form>
@@ -176,9 +182,10 @@ export default function SignPage() {
           <Button
             type="button"
             variant="outline"
-            className="w-full bg-transparent hover:bg-[#7E7AF2] text-white border-[#3d3d6d] mt-3 uppercase py-6 rounded-[15px]"
+            size="md"
+            className="w-full uppercase mt-3"
           >
-            Sign up
+            SIGN UP
           </Button>
         </Link>
       </div>
