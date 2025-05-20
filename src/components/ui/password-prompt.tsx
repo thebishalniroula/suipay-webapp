@@ -36,6 +36,7 @@ const PasswordPrompt = (props: PasswordPromptProps) => {
           </p>
         </div>
         <Input
+          className="w-full bg-[#2C2E4A]"
           type="password"
           placeholder="Password"
           {...register("password")}

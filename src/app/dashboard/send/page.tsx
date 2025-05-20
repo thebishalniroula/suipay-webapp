@@ -52,12 +52,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex min-h-screen px-4">
+    <div className="flex  px-4">
       <form
         className="flex-1 pt-6 flex flex-col items-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-md flex flex-col items-center text-center">
+        <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-[580px] flex flex-col items-center text-center">
           <div className="relative w-full flex items-center justify-center mb-6">
             <button
               onClick={() => router.push("/dashboard")}
@@ -103,7 +103,7 @@ export default function Dashboard() {
               formState.errors.toAddress?.message}
           </p>
 
-          <p className="w-full text-right text-sm text-white mb-6">
+          <p className="w-full text-right text-[20px] font-medium text-white mb-6">
             Available: {balance?.balance ?? "0.00"} SUI
           </p>
 
