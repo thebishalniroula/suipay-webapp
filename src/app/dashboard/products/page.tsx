@@ -38,7 +38,6 @@ export default function Products() {
                 </div>
                 <Button
                   size="sm"
-                  variant="ghost"
                   className="text-sm border border-[#8B5CF6] px-3 py-1 text-white hover:bg-[#2a2655] rounded-md"
                   onClick={() => handleCopy(product.id)}
                 >

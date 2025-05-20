@@ -26,13 +26,13 @@ export function Sidebar() {
   const linkClass = (path: string) =>
     `flex items-center px-4 h-[61px] py-2 rounded-lg font-medium transition-colors duration-200 ${
       pathname === path
-        ? "bg-[#6c63ff] text-white"
-        : "text-white hover:bg-[#1a1a2e]"
+        ? "bg-[#7E7AF2] text-white text-[22px] font-semibold"
+        : "text-white text-[22px] font-normal hover:bg-[#1a1a2e]"
     }`;
 
   return (
     <>
-      <aside className="w-48 pt-6 px-4 flex flex-col">
+      <aside className="w-[214px] pt-6 px-8 flex flex-col">
         <Link
           href="/dashboard"
           className="flex items-center gap-2 mb-12 pl-2 cursor-pointer"
@@ -70,7 +70,7 @@ export function Sidebar() {
 
           <button
             onClick={() => setShowConfirm(true)}
-            className="flex items-center px-4 py-2 rounded-lg text-white hover:bg-[#1a1a2e] mt-auto text-left"
+            className="flex items-center px-4 py-2 rounded-lg text-[22px] font-normal text-white hover:bg-[#1a1a2e] mt-auto text-left"
           >
             Logout
           </button>

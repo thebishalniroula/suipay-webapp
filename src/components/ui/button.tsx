@@ -14,9 +14,9 @@ const buttonVariants = cva(
           "border border-[#7E7AF2] text-white hover:bg-[#7E7AF2] font-normal",
       },
       size: {
-        sm: "h-[59px] px-[28px] rounded-[20px]",
-        md: "h-[77px] px-[40px] rounded-[20.86px]",
-        lg: "h-[79px] px-[70.9px] rounded-[26.59px]",
+        sm: "h-[59px] px-[28px] rounded-[20px] text-[18px] font-meduim",
+        md: "h-[65px] px-[40px] rounded-[20.86px] text-[22px] font-bold",
+        lg: "h-[67px] px-[70.9px] rounded-[26.59px] text-[24px] font-bold",
       },
     },
     defaultVariants: {
