@@ -74,16 +74,20 @@ export default function AddProductModal({
 
   const handleAddProduct = async () => {
     try {
+      console.log("adding prod");
+
       if (!name.trim()) {
         toast.error("Product name is required.");
         return;
       }
+      console.log("adding prod2");
 
       const parsedPrice = parseFloat(price);
       if (!price || isNaN(parsedPrice) || parsedPrice <= 0) {
         toast.error("Enter a valid price.");
         return;
       }
+      console.log("adding prod3");
 
       const priceInMist = BigInt(
         Math.round(parsedPrice * Number(MIST_PER_SUI))
@@ -92,6 +96,7 @@ export default function AddProductModal({
         subscriptionType === "subscription"
           ? getDurationInSeconds(duration, durationUnit)
           : 0;
+      console.log("adding prod4");
 
       const res = await addProductMutation.mutateAsync({
         name,
@@ -101,8 +106,8 @@ export default function AddProductModal({
 
       const productId = res?.product.id;
       const webhookid = linkedWebhook;
-
       if (productId && webhookid) {
+        console.log("Finally adding");
         await linkProductWebhookMutation.mutateAsync({
           productId,
           webhookId: webhookid,
@@ -119,7 +124,10 @@ export default function AddProductModal({
       setSubscriptionType("onetime");
       setDurationUnit("Month");
       setShowUnits(false);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
   };
 
   return (
