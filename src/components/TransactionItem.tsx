@@ -3,6 +3,7 @@ import useSuiToUSD from "@/hooks/use-sui-to-usd";
 import ArrowSlanted from "@/icons/arrow-slanted";
 import { cn } from "@/lib/utils";
 import { Transaction } from "@/hooks/use-get-transaction-history";
+import { format } from "date-fns";
 
 export const TransactionItem = (props: { transaction: Transaction }) => {
   const { data } = useSuiToUSD(
@@ -17,14 +18,20 @@ export const TransactionItem = (props: { transaction: Transaction }) => {
             className={!props.transaction.incoming ? "rotate-180" : ""}
           />
         </div>
-        <div className="flex flex-col justify-between items-center py-1 h-full">
-          <p className="font-medium ">
-            {/* {props.transaction.incoming ? "Deposited to" : "Withdraw to"}  */}
-            {props.transaction.memo}
+        <div className="flex flex-col justify-between py-1">
+          {/* <p className="font-medium ">{props.transaction.incoming ? 'Deposit' : 'Withdraw'}</p> */}
+          <p
+            className="font-medium cursor-pointer"
+            title={props.transaction.memo}
+          >
+            {props.transaction.memo.slice(0, 18) + "..."}
           </p>
-          {/* <p className="text-sm text-[#ADC8DF] font-medium ">
-            {props.transaction.party?.slice(0, 6)}...
-          </p> */}
+
+          {props.transaction.timestamp && (
+            <p className="text-sm text-[#ADC8DF] font-medium ">
+              {format(new Date(+props.transaction.timestamp), "MMM dd, yyyy")}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-col justify-between py-1 text-right">
