@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes, ReactNode, forwardRef } from "react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-[16px] text-lg font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none gap-2 cursor-pointer",
+  "inline-flex items-center justify-center rounded-[16px] text-lg font-bold transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none gap-2 cursor-pointer",
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
           "border border-[#7E7AF2] text-white hover:bg-[#7E7AF2] font-normal",
       },
       size: {
-        sm: "h-[59px] px-[48px] rounded-[20px]",
+        sm: "h-[59px] px-[28px] rounded-[20px]",
         md: "h-[77px] px-[40px] rounded-[20.86px]",
         lg: "h-[79px] px-[70.9px] rounded-[26.59px]",
       },

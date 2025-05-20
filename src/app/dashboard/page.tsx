@@ -36,7 +36,7 @@ export default function Dashboard() {
                 rightIcon={<GoArrowDown />}
                 variant="primary"
                 size="lg"
-                className="w-full "
+                className="w-full"
               >
                 Deposit
               </Button>
