@@ -6,8 +6,11 @@ import useCountDown from "@/hooks/use-count-down";
 import InfoBox from "@/components/ui/info-box";
 import ProcessingIcon from "@/icons/processing";
 import TickIcon from "@/icons/tick-icon";
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 const TempDepositAddressPage = () => {
+  const router = useRouter();
   const messages = useWSDepositAddress();
 
   const addressDetails = messages.messages.find(
@@ -32,13 +35,22 @@ const TempDepositAddressPage = () => {
   };
 
   return (
-    <div className="p-3 flex flex-col gap-4 max-w-[500px] mx-auto border border-[#47278C]">
+    <div className="p-5 rounded-[40px] flex flex-col gap-4 max-w-[500px] mx-auto border border-[#47278C]">
+      <div className="relative w-full flex items-center justify-center mb-6">
+        <button
+          onClick={() => router.push("/dashboard")}
+          className="absolute left-0 cursor-pointer"
+        >
+          <RiArrowLeftSLine className="text-white w-6 h-6" />
+        </button>
+        <h2 className="text-2xl font-semibold text-white">Deposit</h2>
+      </div>
       {!["processing", "successful"].includes(status?.toLowerCase()) && (
         <>
           <InfoBoxWithCountdown expiresAt={expiry} />
 
           <div
-            className="bg-white mx-auto flex items-center justify-center text-black rounded-xl"
+            className="bg-white mt-4 mx-auto flex items-center justify-center text-black rounded-xl"
             style={{
               height: "170px",
               width: "170px",
@@ -48,7 +60,7 @@ const TempDepositAddressPage = () => {
               <QRCode size={155} value={tempAddress} viewBox={`0 0 256 256`} />
             )}
           </div>
-          <p className="text-white tex-base text-center break-words font-medium">
+          <p className="text-white mt-4 tex-base text-center break-words font-medium">
             {tempAddress}
           </p>
           <div

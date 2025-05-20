@@ -21,7 +21,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen">
       <main className="flex-1 pt-6 px-4 flex flex-col items-center">
-        <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-md">
+        <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 ">
           <div className="mb-6">
             <p className="text-gray-400 mb-1">Balance</p>
             <h2 className="text-4xl font-bold text-white">
@@ -30,17 +30,25 @@ export default function Dashboard() {
             <p className="text-[#6c63ff]">${balance?.balanceInUSD ?? ".."}</p>
           </div>
 
-          <div className="flex gap-4 mb-6">
+          <div className="flex gap-4 mb-6 w-full">
             <Link href="/dashboard/deposit" className="flex-1">
-              <Button className="w-full bg-[#6c63ff] hover:bg-[#5a52d5] text-white font-medium h-[65px] px-4 rounded-[26px] flex items-center justify-center">
-                <GoArrowDown className="w-5 h-5 mr-2" />
+              <Button
+                rightIcon={<GoArrowDown />}
+                variant="primary"
+                size="lg"
+                className="w-full "
+              >
                 Deposit
               </Button>
             </Link>
 
             <Link href="/dashboard/send" className="flex-1">
-              <Button className="w-full bg-[#CFC4E7] hover:bg-[#6c63ff]  h-[65px] px-4 rounded-[26px] text-black font-medium flex items-center justify-center">
-                <IoIosArrowRoundUp className="w-5 h-5 mr-2" />
+              <Button
+                rightIcon={<IoIosArrowRoundUp />}
+                variant="secondary"
+                size="lg"
+                className="w-full "
+              >
                 Send
               </Button>
             </Link>
