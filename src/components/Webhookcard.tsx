@@ -19,7 +19,7 @@ export default function WebhookCard({ hook }: { hook: Webhook }) {
   return (
     <div className="relative w-[300px] rounded-2xl border border-[#4B3F99] bg-[#0D0D19] text-white p-5 space-y-3 pb-3 h-auto">
       <div className="absolute top-3 right-3">
-        <Button variant="ghost" size="icon" className="text-white p-1">
+        <Button className="text-white p-1">
           <X size={16} />
         </Button>
       </div>
@@ -39,8 +39,6 @@ export default function WebhookCard({ hook }: { hook: Webhook }) {
           </p>
           <div className="flex items-center gap-1">
             <Button
-              variant="ghost"
-              size="icon"
               className="p-2 bg-[#2D2A5F] hover:bg-[#3E3A74]"
               onClick={handleToggleVisibility}
             >

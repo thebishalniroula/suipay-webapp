@@ -33,7 +33,7 @@ export default function Dashboard() {
           <div className="flex gap-4 mb-6 w-full">
             <Link href="/dashboard/deposit" className="flex-1">
               <Button
-                rightIcon={<GoArrowDown />}
+                leftIcon={<GoArrowDown />}
                 variant="primary"
                 size="lg"
                 className="w-full"
@@ -44,7 +44,7 @@ export default function Dashboard() {
 
             <Link href="/dashboard/send" className="flex-1">
               <Button
-                rightIcon={<IoIosArrowRoundUp />}
+                leftIcon={<IoIosArrowRoundUp />}
                 variant="secondary"
                 size="lg"
                 className="w-full "
@@ -55,12 +55,14 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <h3 className="text-xl font-medium text-white mb-6">
+            <h3 className="text-[28px] font-extrabold text-white mb-6">
               Recent Activity
             </h3>
             <div className="w-full flex flex-col gap-2 pb-23">
               {!history.data?.transactions.length && (
-                <p className="text-center opacity-50">No transactions</p>
+                <p className="text-center pt-16 text-[28px] font-normal opacity-50">
+                  No transactions
+                </p>
               )}
               {history.data?.transactions.map((item: any, key: any) => {
                 return <TransactionItem transaction={item} key={key} />;
