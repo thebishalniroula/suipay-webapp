@@ -20,7 +20,7 @@ export function Sidebar() {
     deleteCookie("mnemonic");
     deleteCookie("privateKey");
 
-    router.push("/");
+    router.refresh();
   };
 
   const linkClass = (path: string) =>
