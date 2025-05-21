@@ -45,6 +45,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
 const useSyncWalletStoreWithCookiesOnLoad = () => {
   const { setEncrypted, setPlain } = useWalletEssentialsStore();
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     (async () => {
       const accessToken = await getCookie("accessToken");
@@ -81,6 +82,8 @@ const useSyncWalletStoreWithCookiesOnLoad = () => {
         publicKey,
         scwAddress,
       });
+
+      setHydrated(true);
     })();
   }, []);
 };
