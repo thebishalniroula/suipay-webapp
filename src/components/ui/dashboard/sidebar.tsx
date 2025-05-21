@@ -24,10 +24,8 @@ export function Sidebar() {
   };
 
   const linkClass = (path: string) =>
-    `flex items-center px-4 h-[61px] py-2 rounded-lg font-medium transition-colors duration-200 ${
-      pathname === path
-        ? "bg-[#7E7AF2] text-white text-[22px] font-semibold"
-        : "text-white text-[22px] font-normal hover:bg-[#1a1a2e]"
+    `flex items-center px-4 h-[61px] py-2 rounded-lg font-medium transition-colors duration-200 text-[18px] ${
+      pathname === path ? "bg-[#7E7AF2]" : "text-white hover:bg-[#1a1a2e]"
     }`;
 
   return (
@@ -66,11 +64,9 @@ export function Sidebar() {
             Settings
           </Link>
 
-          <div className="flex-grow"></div>
-
           <button
             onClick={() => setShowConfirm(true)}
-            className="flex items-center px-4 py-2 rounded-lg text-[22px] font-normal text-white hover:bg-[#1a1a2e] mt-auto text-left"
+            className={linkClass("/dashboard/logout")}
           >
             Logout
           </button>

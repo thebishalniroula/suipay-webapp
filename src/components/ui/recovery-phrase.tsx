@@ -19,7 +19,7 @@ const RecoveryPhrase = (props: RecoveryPhraseProps) => {
       toast.success("Copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy recovery phrase:", err);
+      console.log("Failed to copy recovery phrase:", err);
     }
   };
 

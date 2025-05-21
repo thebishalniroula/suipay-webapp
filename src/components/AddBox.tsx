@@ -12,7 +12,7 @@ export default function AddBox({
   return (
     <div
       onClick={onClick}
-      className="w-[300px] border-2 border-[#1F173F] rounded-2xl flex flex-col items-center justify-center p-8 bg-transparent text-white cursor-pointer hover:border-[#6c63ff] transition"
+      className="w-[300px] border-2 border-[#8B5CF6] rounded-2xl flex flex-col items-center justify-center p-8 bg-transparent text-white cursor-pointer hover:border-[#6c63ff] transition"
     >
       <div className="p-4 rounded-lg">
         <span className="text-3xl">

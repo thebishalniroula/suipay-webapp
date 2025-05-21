@@ -9,6 +9,7 @@ import PasswordPrompt from "@/components/ui/password-prompt";
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { decryptData, EncryptedData } from "@/utils/encryption";
 import { getCookie } from "cookies-next";
+import toast from "react-hot-toast";
 
 const networks = {
   testnet: { url: "https://fullnode.testnet.sui.io:443" },
@@ -23,12 +24,17 @@ export function Providers({ children }: { children: ReactNode }) {
   useSyncWalletStoreWithCookiesOnLoad();
 
   const handleSubmit = async (password: string) => {
-    const decryptedPrivateKey = await decryptData(
-      encrypted.privateKey,
-      password
-    );
-    const decryptedMnemonic = await decryptData(encrypted.mnemonic, password);
-    setKeys(decryptedMnemonic, decryptedPrivateKey);
+    try {
+      const decryptedPrivateKey = await decryptData(
+        encrypted.privateKey,
+        password
+      );
+      const decryptedMnemonic = await decryptData(encrypted.mnemonic, password);
+      setKeys(decryptedMnemonic, decryptedPrivateKey);
+    } catch (error) {
+      console.log("Error decrypting keys:", error);
+      toast.error("Invalid password. Please try again.");
+    }
   };
 
   return (

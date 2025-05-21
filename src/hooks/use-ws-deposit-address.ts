@@ -30,8 +30,15 @@ const useWSDepositAddress = () => {
       setMessages((prev) => [...prev, JSON.parse(event.data ?? "{}")]);
     };
 
-    socketRef.current.onerror = (error) => {
-      console.error("WebSocket error:", error);
+    socketRef.current.onerror = (e) => {
+      console.log("WebSocket error event:", e);
+
+      // Try extracting additional info (if possible)
+      if (e instanceof ErrorEvent) {
+        console.log("WebSocket error details:", e.message);
+      } else {
+        console.warn("WebSocket error: no additional error info available.");
+      }
     };
 
     socketRef.current.onclose = () => {

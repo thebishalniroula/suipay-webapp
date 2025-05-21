@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import useGetBalance from "@/hooks/use-get-balance";
 import useSendSui from "@/hooks/use-send-sui";
 import Spinner from "@/icons/spinner";
@@ -28,13 +29,14 @@ export default function Dashboard() {
   const { data: balance } = useGetBalance(address);
   const { mutateAsync: sendSui, isPending: isSendingSui } = useSendSui();
 
-  const { control, handleSubmit, register, formState, reset } = useForm({
-    resolver: zodResolver(zSendSuiSchema),
-    defaultValues: {
-      amount: 0,
-      toAddress: "",
-    },
-  });
+  const { control, handleSubmit, register, formState, reset } =
+    useForm<SendSuiForm>({
+      resolver: zodResolver(zSendSuiSchema),
+      defaultValues: {
+        amount: 0,
+        toAddress: "",
+      },
+    });
 
   const onSubmit: SubmitHandler<SendSuiForm> = async (data) => {
     try {
@@ -46,7 +48,7 @@ export default function Dashboard() {
       reset();
       router.push("/dashboard");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast.error("Something went wrong");
     }
   };
@@ -60,6 +62,7 @@ export default function Dashboard() {
         <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-[580px] flex flex-col items-center text-center">
           <div className="relative w-full flex items-center justify-center mb-6">
             <button
+              type="button"
               onClick={() => router.push("/dashboard")}
               className="absolute left-0 cursor-pointer"
             >
@@ -68,34 +71,29 @@ export default function Dashboard() {
             <h2 className="text-2xl font-semibold text-white">Send Sui</h2>
           </div>
 
-          <div className="mb-6 rounded-full bg-[#292E54] p-4">
-            <Image src="/sui.svg" alt="logo" width={69} height={91} />
-          </div>
+          <div className="w-full flex flex-col items-center gap-4">
+            <div className="rounded-full bg-[#292E54] p-4 w-fit aspect-square flex items-center justify-center">
+              <Image src="/sui.svg" alt="logo" width={69} height={69} />
+            </div>
 
-          <input
-            {...register("toAddress")}
-            type="text"
-            placeholder="Recipient’s Wallet Address"
-            className="w-full bg-transparent border border-[#2C2E4A] rounded-lg py-3 px-4 text-white placeholder-gray-400 mb-2 focus:outline-none"
-          />
-
-          <div className="w-full flex items-center border border-[#2C2E4A] rounded-lg px-4 mb-2">
-            <Controller
-              control={control}
-              name="amount"
-              render={({ field }) => (
-                <input
-                  type="number"
-                  className="flex-1 bg-transparent py-3 text-white placeholder-gray-400 focus:outline-none"
-                  {...field}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    field.onChange(+inputValue);
-                  }}
-                />
-              )}
+            <Input
+              {...register("toAddress")}
+              type="text"
+              placeholder="Recipient’s Wallet Address"
+              className="w-full"
             />
-            <span className="text-white mr-2">SUI</span>
+
+            <div className="w-full flex items-center border border-[#2C2E4A] rounded-[18px] pr-4">
+              <Input
+                type="number"
+                className="w-full border-none focus-visible:ring-0 focus-visible:border-none focus-visible:outline-none"
+                placeholder="0.00"
+                {...register("amount")}
+              />
+              <span className="text-white/50 mr-2 text-xl font-medium">
+                SUI
+              </span>
+            </div>
           </div>
 
           <p className="text-sm text-red-500 mb-2">
@@ -103,7 +101,7 @@ export default function Dashboard() {
               formState.errors.toAddress?.message}
           </p>
 
-          <p className="w-full text-right text-[20px] font-medium text-white mb-6">
+          <p className="w-full text-right text-[18px] font-normal text-white/90 mt-1 mb-5">
             Available: {balance?.balance ?? "0.00"} SUI
           </p>
 

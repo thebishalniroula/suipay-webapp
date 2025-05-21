@@ -24,11 +24,12 @@ import { QUERY_KEYS } from "@/app/config/query-keys";
 import { MIST_PER_SUI } from "@mysten/sui/utils";
 import Spinner from "@/icons/spinner";
 import { Input } from "../input";
+import { cn } from "@/lib/utils";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
   const num = parseInt(value, 10);
   const multipliers: Record<string, number> = {
-    Min: 60,
+    Minutes: 60,
     Days: 86400,
     Month: 2592000,
     Year: 31536000,
@@ -145,7 +146,7 @@ export default function AddProductModal({
             <DialogTitle className="text-white">Add New Product</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 mt-4">
+          <div className="space-y-4 mt-1">
             <Input
               placeholder="Name of the product"
               className="w-full "
@@ -168,37 +169,37 @@ export default function AddProductModal({
             )}
 
             {linkedWebhook ? (
-              <div className="flex gap-2 items-start bg-[#1E1D33] border border-[#8B5CF6] px-4 py-3 rounded-lg w-full max-w-full">
-                <span className="text-[#7E7AF2] font-medium break-all text-sm flex-1">
+              <div className="flex gap-2 items-center bg-[#1E1D33] border border-[#8B5CF6] px-4 py-3 rounded-lg w-full max-w-full">
+                <span className="text-[#7E7AF2] font-medium break-all text-base flex-1">
                   {data?.webhooks.find((w) => w.id === linkedWebhook)?.url ??
                     "Webhook not found"}
                 </span>
                 <Button
                   onClick={() => setLinkedWebhook(null)}
-                  className="text-sm px-3 py-1 border border-[#8B5CF6] text-white hover:bg-[#2a2655] rounded-md"
+                  className="text-sm font-normal px-3 py-2 border rounded-md h-fit"
                   variant="outline"
                 >
                   Unlink
                 </Button>
               </div>
             ) : (
-              <Button
+              <Input
+                readOnly
                 onClick={() => setIsWebhookDialogOpen(true)}
-                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 cursor-pointer break-all hover:bg-[#1a1a2e] transition h-[79px] rounded-[20px]"
-              >
-                + Link Web hook
-              </Button>
+                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 cursor-pointer break-all hover:bg-[#1a1a2e] transition h-[79px] rounded-[20px]"
+                value={"+ Link Web hook"}
+              />
             )}
 
             <div>
-              <p className="font-medium text-[20px] mb-2">
+              <p className="font-medium text-[18px] mb-3">
                 Type of subscription
               </p>
               <div className="flex gap-4">
                 {["onetime", "subscription"].map((type) => (
                   <label
                     key={type}
-                    className={`flex items-center justify-center gap-2 flex-1 py-2 rounded-lg border ${
+                    className={`flex items-center justify-center gap-2 flex-1 py-1 rounded-lg border ${
                       subscriptionType === type
                         ? "border-[#8B5CF6] bg-[#1a1a2e]"
                         : "border-[#2C2E4A]"
@@ -221,10 +222,10 @@ export default function AddProductModal({
             {subscriptionType === "subscription" && (
               <div className="space-y-2">
                 <div className="relative">
-                  <input
+                  <Input
                     placeholder="Enter duration"
                     type="number"
-                    className="w-full bg-transparent border border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg focus:outline-none h-[49px]"
+                    className="w-full border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg h-[49px] focus-visible:ring-0"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                   />
@@ -232,6 +233,7 @@ export default function AddProductModal({
                     <Button
                       rightIcon={<MdOutlineKeyboardArrowDown />}
                       type="button"
+                      size="sm"
                       onClick={() => setShowUnits(true)}
                       className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent hover:bg-transparent text-white px-2 py-1 flex items-center gap-1"
                     >
@@ -240,12 +242,18 @@ export default function AddProductModal({
                   )}
                 </div>
 
-                {showUnits && (
-                  <div className="flex justify-between gap-2 px-1">
-                    {["Min", "Days", "Month", "Year"].map((unit) => (
+                {
+                  <div
+                    className={cn(
+                      "flex justify-between gap-2 mt-4 h-0 overflow-hidden",
+                      showUnits && "h-[45px]",
+                      "transition-all duration-200 ease-in-out"
+                    )}
+                  >
+                    {["Minutes", "Days", "Month", "Year"].map((unit) => (
                       <label
                         key={unit}
-                        className={`flex items-center justify-center flex-1 border rounded-lg px-3 py-2 text-sm capitalize cursor-pointer transition ${
+                        className={`flex items-center justify-center flex-1 border rounded-lg px-3 py-2 text-base capitalize cursor-pointer transition ${
                           durationUnit === unit
                             ? "border-[#8B5CF6] bg-[#1a1a2e] text-white"
                             : "border-[#2C2E4A] text-gray-400"
@@ -266,29 +274,28 @@ export default function AddProductModal({
                       </label>
                     ))}
                   </div>
-                )}
+                }
               </div>
             )}
-
-            <Button
-              onClick={handleAddProduct}
-              variant="primary"
-              size="md"
-              className="w-full uppercase flex items-center justify-center gap-2"
-              disabled={
-                addProductMutation.isPending ||
-                linkProductWebhookMutation.isPending
-              }
-            >
-              {(addProductMutation.isPending ||
-                linkProductWebhookMutation.isPending) && <Spinner />}
-              {addProductMutation.isPending
-                ? "Adding..."
-                : linkProductWebhookMutation.isPending
-                ? "Linking..."
-                : "Add Product"}
-            </Button>
           </div>
+          <Button
+            onClick={handleAddProduct}
+            variant="primary"
+            size="md"
+            className="w-full uppercase flex items-center justify-center gap-2"
+            disabled={
+              addProductMutation.isPending ||
+              linkProductWebhookMutation.isPending
+            }
+          >
+            {(addProductMutation.isPending ||
+              linkProductWebhookMutation.isPending) && <Spinner />}
+            {addProductMutation.isPending
+              ? "Adding..."
+              : linkProductWebhookMutation.isPending
+              ? "Linking..."
+              : "Add Product"}
+          </Button>
         </DialogContent>
       </Dialog>
 
@@ -302,14 +309,14 @@ export default function AddProductModal({
             {data?.webhooks.map((hook, index) => (
               <div
                 key={hook.url + index}
-                className="flex gap-3 items-start bg-transparent rounded-lg px-4 py-3 border border-[#2C2E4A]"
+                className="flex gap-3 items-center rounded-lg px-4 py-3 border border-[#2C2E4A]"
               >
-                <span className="text-white font-medium break-all text-sm flex-1">
+                <span className="text-white font-medium break-all text-base flex-1">
                   {hook.url}
                 </span>
                 <Button
                   variant="outline"
-                  className="border cursor-pointer border-[#8B5CF6] text-white hover:bg-[#2a2655] px-3 py-1 text-sm rounded-md"
+                  className="font-normal px-3 py-2 text-sm rounded-md h-fit"
                   onClick={() => {
                     setLinkedWebhook(hook.id);
                     setIsWebhookDialogOpen(false);

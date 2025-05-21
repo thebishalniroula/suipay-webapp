@@ -119,8 +119,8 @@ export default function SignPage() {
                   <FormControl>
                     <Textarea
                       placeholder="Seedphrase"
-                      className="bg-transparent border-[#A8A2F6] px-4  rounded-[15px]  text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50 min-h-[100px]"
-                      rows={20}
+                      className="h-[80px]"
+                      rows={4}
                       {...field}
                     />
                   </FormControl>

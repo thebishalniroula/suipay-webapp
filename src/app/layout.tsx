@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const dmSans = DM_Sans({
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 

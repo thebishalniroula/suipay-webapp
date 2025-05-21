@@ -35,7 +35,7 @@ const TempDepositAddressPage = () => {
   };
 
   return (
-    <div className="p-5 rounded-[40px] flex flex-col gap-4 max-w-[500px] mx-auto border border-[#47278C]">
+    <div className="p-5 rounded-[40px] flex flex-col gap-4 max-w-[550px] mx-auto border border-[#47278C]">
       <div className="relative w-full flex items-center justify-center mb-6">
         <button
           onClick={() => router.push("/dashboard")}

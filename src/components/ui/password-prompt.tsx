@@ -30,18 +30,18 @@ const PasswordPrompt = (props: PasswordPromptProps) => {
         className="w-full h-fit p-5 flex flex-col gap-6 bg-[#333166] rounded-3xl items-center max-w-[360px]"
       >
         <div>
-          <h5 className="mb-1">Enter your password</h5>
-          <p className="font-light text-[#ADC8DF] leading-[1.2] text-sm">
+          <h5 className="mb-1 text-lg">Enter your password</h5>
+          <p className="font-light text-[#ADC8DF] leading-[1.2] text-md">
             You need to enter your password to perform sensitive actions.
           </p>
         </div>
         <Input
-          className="w-full bg-[#2C2E4A]"
+          className="w-full border-white/80"
           type="password"
           placeholder="Password"
           {...register("password")}
         />
-        <p className="text-red-500">{formState.errors.password?.message}</p>
+        {/* <p className="text-red-500">{formState.errors.password?.message}</p> */}
         <div className="flex gap-2 w-full">
           {props.onClose && (
             <Button

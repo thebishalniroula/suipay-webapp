@@ -18,39 +18,30 @@ export default function WebhookCard({ hook }: { hook: Webhook }) {
 
   return (
     <div className="relative w-[300px] rounded-2xl border border-[#4B3F99] bg-[#0D0D19] text-white p-5 space-y-3 pb-3 h-auto">
-      <div className="absolute top-3 right-3">
-        <Button className="text-white p-1">
+      {/* <div className="absolute top-3 right-3">
+        <Button className="text-white p-1 aspect-square">
           <X size={16} />
         </Button>
-      </div>
+      </div> */}
 
       <div>
-        <p className="text-sm text-[#7E7AF2] mb-1">Url</p>
+        <p className="text-base text-[#7E7AF2] mb-1">URL</p>
         <p className="text-base font-medium break-words leading-snug">
           {hook.url}
         </p>
       </div>
 
       <div>
-        <p className="text-sm text-[#7E7AF2] mb-0">Secret Key</p>
-        <div className="flex items-center gap-2">
+        <p className="text-base text-[#7E7AF2] mb-0">Secret Key</p>
+        <div className="flex items-center gap-4">
           <p className="flex-1 truncate text-sm font-mono">
-            {visible ? hook.secret : "************************"}
+            {visible ? hook.secret : "*******************"}
           </p>
-          <div className="flex items-center gap-1">
-            <Button
-              className="p-2 bg-[#2D2A5F] hover:bg-[#3E3A74]"
-              onClick={handleToggleVisibility}
-            >
+          <div className="flex items-center gap-3 select-none">
+            <div onClick={handleToggleVisibility}>
               {visible ? <EyeOff size={16} /> : <Eye size={16} />}
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleCopy}
-              className="bg-[#2D2A5F] hover:bg-[#7a4ee6] h-[37px] rounded-lg px-4 text-sm font-medium"
-            >
-              Copy
-            </Button>
+            </div>
+            <span onClick={handleCopy}>Copy</span>
           </div>
         </div>
       </div>
