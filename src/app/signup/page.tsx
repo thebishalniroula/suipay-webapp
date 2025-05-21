@@ -96,6 +96,8 @@ export default function SignupPage() {
     setMnemonic(mnemonic);
 
     toast.success("Signup successful!");
+
+    router.push("/dashboard");
   };
 
   return (
