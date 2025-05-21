@@ -1,9 +1,30 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 
 export default function Home() {
+  const router = useRouter();
+  const { plain } = useWalletEssentialsStore();
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    if (plain?.accessToken) {
+      router.push("/dashboard");
+    }
+  }, [isHydrated, plain?.accessToken]);
+
+  if (!isHydrated || plain?.accessToken) return null;
+
   return (
     <div className="flex flex-col items-center min-h-screen">
       <nav className="w-full max-w-7xl mx-auto flex items-center justify-between py-6 px-4">
