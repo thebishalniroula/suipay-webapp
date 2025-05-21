@@ -136,7 +136,7 @@ export default function SignPage() {
                   <FormControl>
                     <Input
                       placeholder="ex@mple.com"
-                      className="bg-transparent border-[#A8A2F6] px-4 h-[79px]  rounded-[20px]  py-6 text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="w-full"
                       {...field}
                     />
                   </FormControl>
@@ -154,7 +154,7 @@ export default function SignPage() {
                     <Input
                       placeholder="Password"
                       type="password"
-                      className="bg-transparent border-[#A8A2F6] px-4 py-6 h-[79px] rounded-[20px] text-white placeholder:text-[#94ADC7] focus-visible:ring-[#6c63ff]/50"
+                      className="w-full"
                       {...field}
                     />
                   </FormControl>

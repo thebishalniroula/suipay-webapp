@@ -80,17 +80,23 @@ export function Sidebar() {
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/50">
           <div className="bg-[#1a1a2e] rounded-xl p-6 text-white max-w-sm w-full">
-            <h2 className="text-lg font-semibold mb-3">Confirm Logout</h2>
+            <h2 className="text-lg font-semibold mb-1">Confirm Logout</h2>
             <p className="text-sm mb-6">Are you sure you want to logout?</p>
-            <div className="flex justify-end gap-4">
+            <div className="flex-1 flex justify-end gap-4">
               <Button
                 variant="secondary"
                 size="sm"
+                className="w-full"
                 onClick={() => setShowConfirm(false)}
               >
                 Cancel
               </Button>
-              <Button variant="primary" size="sm" onClick={handleLogout}>
+              <Button
+                variant="primary"
+                className="w-full"
+                size="sm"
+                onClick={handleLogout}
+              >
                 Logout
               </Button>
             </div>

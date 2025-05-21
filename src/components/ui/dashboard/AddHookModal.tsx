@@ -51,7 +51,7 @@ export default function AddWebhookModal({
       )}
 
       <DialogContent className="bg-[#0D0D19] text-white border border-[#8B5CF6] rounded-2xl max-w-lg w-full">
-        <DialogHeader className="flex justify-between items-center">
+        <DialogHeader className="flex">
           <DialogTitle className="text-lg">Add a Hook</DialogTitle>
         </DialogHeader>
 

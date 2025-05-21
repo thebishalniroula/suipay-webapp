@@ -8,10 +8,7 @@ export default function Home() {
     <div className="flex flex-col items-center min-h-screen">
       <nav className="w-full max-w-7xl mx-auto flex items-center justify-between py-6 px-4">
         <div className="flex items-center gap-2">
-          <div className="text-white">
-            <Image src="/logo.svg" alt="logo" width={33} height={33} />
-          </div>
-          <span className="text-[24px] font-meduim text-white">SuiPay</span>
+          <Image src="/logo1.svg" alt="logo" width={101} height={32} />
         </div>
         <Button rightIcon={<MdArrowOutward />} variant="primary" size="sm">
           <Link href="/signup" className="inline-flex items-center">
@@ -28,9 +25,10 @@ export default function Home() {
       </div>
 
       <div className="text-center mt-2 px-4 max-w-4xl mx-auto">
-        <h1 className="text-[88px] leading-[1.1] font-bold text-white">
-          SuiPay
-        </h1>
+        <div className="mt-4 flex justify-center">
+          <Image src="/logo1.svg" alt="SuiPay logo" width={251} height={79} />
+        </div>
+
         <h2 className="text-[64px] md:text-[72px] leading-tight font-medium text-white mt-1">
           Payments
         </h2>

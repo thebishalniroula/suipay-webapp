@@ -23,6 +23,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/app/config/query-keys";
 import { MIST_PER_SUI } from "@mysten/sui/utils";
 import Spinner from "@/icons/spinner";
+import { Input } from "../input";
 
 const getDurationInSeconds = (value: string, unit: string): number => {
   const num = parseInt(value, 10);
@@ -141,22 +142,21 @@ export default function AddProductModal({
 
         <DialogContent className="bg-[#0D0D19] text-white border border-[#8B5CF6] rounded-2xl max-w-sm">
           <DialogHeader className="flex justify-between">
-            <DialogTitle className="text-white text-xl">
-              Add New Product
-            </DialogTitle>
+            <DialogTitle className="text-white">Add New Product</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 mt-4">
-            <input
+            <Input
               placeholder="Name of the product"
-              className="w-full bg-transparent border border-[#2C2E4A] text-white placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none"
+              className="w-full "
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <input
+
+            <Input
               placeholder="Price"
               type="number"
-              className="w-full bg-transparent border border-[#2C2E4A] text-white placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none"
+              className="w-full "
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
@@ -184,14 +184,16 @@ export default function AddProductModal({
             ) : (
               <Button
                 onClick={() => setIsWebhookDialogOpen(true)}
-                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 cursor-pointer break-all rounded-lg hover:bg-[#1a1a2e] transition"
+                className="w-full text-[#8B5CF6] border bg-[#12112B] border-[#2C2E4A] px-4 py-3 cursor-pointer break-all hover:bg-[#1a1a2e] transition h-[79px] rounded-[20px]"
               >
                 + Link Web hook
               </Button>
             )}
 
             <div>
-              <p className="font-medium mb-2">Type of subscription</p>
+              <p className="font-medium text-[20px] mb-2">
+                Type of subscription
+              </p>
               <div className="flex gap-4">
                 {["onetime", "subscription"].map((type) => (
                   <label
@@ -208,7 +210,7 @@ export default function AddProductModal({
                       value={type}
                       checked={subscriptionType === type}
                       onChange={() => setSubscriptionType(type)}
-                      className="accent-[#8B5CF6] w-4 h-4"
+                      className="accent-[#8B5CF6] w-4 h-[49px]"
                     />
                     <span className="text-white capitalize">{type}</span>
                   </label>
@@ -222,7 +224,7 @@ export default function AddProductModal({
                   <input
                     placeholder="Enter duration"
                     type="number"
-                    className="w-full bg-transparent border border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg focus:outline-none"
+                    className="w-full bg-transparent border border-[#8B5CF6] text-white placeholder-gray-400 px-4 py-3 pr-28 rounded-lg focus:outline-none h-[49px]"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                   />
