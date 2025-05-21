@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { QUERY_KEYS } from "@/app/config/query-keys";
 
-const SERVER_URL = `ws://${baseApi}/api/wallet/merchantDepositAddress`;
+const SERVER_URL = `wss://${baseApi}/api/wallet/merchantDepositAddress`;
 
 const useWSDepositAddress = () => {
   const socketRef = useRef<WebSocket>(null);
