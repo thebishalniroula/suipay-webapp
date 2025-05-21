@@ -7,6 +7,24 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 
+const benefits = [
+  {
+    title: "Seamless Recurring Payments",
+    description:
+      "Set up subscription payments that run on autopilot—no need for intermediaries or timely approvals.",
+  },
+  {
+    title: "Built on Trustless Infrastructure",
+    description:
+      "Powered by blockchain, every transaction is verifiable and tamper-proof, ensuring full transparency and security.",
+  },
+  {
+    title: "Open & Permissionless & No gatekeepers.",
+    description:
+      "Anyone with a wallet can start a plan or accept recurring payments instantly..",
+  },
+];
+
 export default function Home() {
   const router = useRouter();
   const { plain } = useWalletEssentialsStore();
@@ -72,21 +90,21 @@ export default function Home() {
 
         <div className="w-full max-w-7xl mx-auto mt-24 px-4 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((num) => (
+            {benefits.map((benefit, index) => (
               <div
-                key={num}
+                key={index}
                 className="bg-transparent text-white p-6 rounded-xl 
-                border-t-[2px] border-l-[2px] border-r-[2px] border-b-[0.05px] 
-                border-[#3d3d6d]"
+        border-t-[2px] border-l-[2px] border-r-[2px] border-b-[0.05px] 
+        border-[#3d3d6d]"
               >
                 <div className="pb-2">
-                  <h3 className="text-xl font-medium">SuiPay Benefit {num}</h3>
+                  <h3 className="text-xl font-medium underline">
+                    SuiPay Benefit {index + 1}
+                  </h3>
                 </div>
                 <div className="text-sm text-gray-400">
-                  <p>Subscriptions onchain Simplified.</p>
-                  <p className="mt-1">
-                    SuiPay Subscriptions onchain Simplified. SuiPay
-                  </p>
+                  <p className="text-white">{benefit.title}</p>
+                  <p className="mt-2">{benefit.description}</p>
                 </div>
               </div>
             ))}
