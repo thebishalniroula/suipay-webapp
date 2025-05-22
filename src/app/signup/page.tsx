@@ -123,7 +123,10 @@ export default function SignupPage() {
           <RecoveryPhrase
             phrase={mnemonic}
             handleContinue={() => {
-              router.push("/dashboard");
+              // Quick fix
+              setTimeout(() => {
+                router.push("/dashboard");
+              }, 1000);
             }}
           />
         </div>
