@@ -65,39 +65,42 @@ export default function SignupPage() {
   const [mnemonic, setMnemonic] = useState<string>("");
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const mnemonic = generateMnemonic();
-    const keyPair = await deriveKeyPair(mnemonic);
-    const address = keyPair.getPublicKey().toSuiAddress();
-    const privateKey = keyPair.getSecretKey();
-    const publicKey = keyPair.getPublicKey().toBase64();
+    try {
+      const mnemonic = generateMnemonic();
+      const keyPair = await deriveKeyPair(mnemonic);
+      const address = keyPair.getPublicKey().toSuiAddress();
+      const privateKey = keyPair.getSecretKey();
+      const publicKey = keyPair.getPublicKey().toBase64();
 
-    const encryptedPrivateKey = await encryptData(privateKey, data.password);
-    const encryptedMnemonic = await encryptData(mnemonic, data.password);
+      const encryptedPrivateKey = await encryptData(privateKey, data.password);
+      const encryptedMnemonic = await encryptData(mnemonic, data.password);
 
-    const res = await signUpMutation.mutateAsync({
-      id: address,
-      businessName: data.businessName,
-      email: data.email,
-      password: data.password,
-    });
+      const res = await signUpMutation.mutateAsync({
+        id: address,
+        businessName: data.businessName,
+        email: data.email,
+        password: data.password,
+      });
 
-    setPlain({
-      address,
-      publicKey,
-      accessToken: res.accessToken,
-      scwAddress: res.user.wallet,
-    });
+      setPlain({
+        address,
+        publicKey,
+        accessToken: res.accessToken,
+        scwAddress: res.user.wallet,
+      });
 
-    setEncrypted({
-      privateKey: encryptedPrivateKey,
-      mnemonic: encryptedMnemonic,
-    });
+      setEncrypted({
+        privateKey: encryptedPrivateKey,
+        mnemonic: encryptedMnemonic,
+      });
 
-    setMnemonic(mnemonic);
+      setMnemonic(mnemonic);
 
-    toast.success("Signup successful!");
-
-    router.push("/dashboard");
+      toast.success("Signup successful!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
