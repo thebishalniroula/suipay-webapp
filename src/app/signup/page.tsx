@@ -122,11 +122,10 @@ export default function SignupPage() {
         <div className="max-w-md w-full rounded-3xl border-[#4F4AED] border">
           <RecoveryPhrase
             phrase={mnemonic}
+            continueLink="/dashboard"
             handleContinue={() => {
               // Quick fix
-              setTimeout(() => {
-                router.push("/dashboard");
-              }, 1000);
+              // router.push("/dashboard");
             }}
           />
         </div>
