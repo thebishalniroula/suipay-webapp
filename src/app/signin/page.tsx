@@ -74,14 +74,6 @@ export default function SignPage() {
         password: values.password,
       });
 
-      // Set cookies
-      setCookie("address", address);
-      setCookie("publicKey", publicKey);
-      setCookie("accessToken", res.accessToken);
-      setCookie("scwAddress", res.user.wallet);
-      setCookie("privateKey", encryptedPrivateKey);
-      setCookie("mnemonic", encryptedMnemonic);
-
       // Set state
       setPlain({
         address,
