@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
 import { Input } from "@/components/ui/input";
 import useGetBalance from "@/hooks/use-get-balance";
 import useSendSui from "@/hooks/use-send-sui";
@@ -54,23 +55,13 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex  px-4">
+    <div className="flex px-4">
       <form
         className="flex-1 pt-6 flex flex-col items-center"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="bg-transparent border border-[#47278C] rounded-3xl p-8 w-full max-w-[580px] flex flex-col items-center text-center">
-          <div className="relative w-full flex items-center justify-center mb-6">
-            <button
-              type="button"
-              onClick={() => router.push("/dashboard")}
-              className="absolute left-0 cursor-pointer"
-            >
-              <RiArrowLeftSLine className="text-white w-6 h-6" />
-            </button>
-            <h2 className="text-2xl font-semibold text-white">Send Sui</h2>
-          </div>
-
+          <Header title="Send Sui" onBack={() => router.push("/dashboard")} />
           <div className="w-full flex flex-col items-center gap-4">
             <div className="rounded-full bg-[#292E54] p-4 w-fit aspect-square flex items-center justify-center">
               <Image src="/sui.svg" alt="logo" width={69} height={69} />
@@ -83,7 +74,7 @@ export default function Dashboard() {
               className="w-full"
             />
 
-            <div className="w-full flex items-center border border-[#2C2E4A] rounded-[18px] pr-4">
+            <div className="w-full flex items-center border border-[#4f5170] rounded-[18px] pr-4">
               <Input
                 type="number"
                 className="w-full border-none focus-visible:ring-0 focus-visible:border-none focus-visible:outline-none"

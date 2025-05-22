@@ -28,3 +28,13 @@ export function formatDuration(seconds: number) {
 }
 
 export const mistToSui = (mist: number) => mist / Number(MIST_PER_SUI);
+
+export const safeParseJSON = (data: string) => {
+  try {
+    const parsed = JSON.parse(data);
+    return parsed;
+  } catch (error) {
+    console.log("Failed to parse JSON:", error);
+    return null;
+  }
+};

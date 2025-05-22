@@ -10,6 +10,7 @@ import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { decryptData, EncryptedData } from "@/utils/encryption";
 import { getCookie } from "cookies-next";
 import toast from "react-hot-toast";
+import { safeParseJSON } from "@/lib/utils";
 
 const networks = {
   testnet: { url: "https://fullnode.testnet.sui.io:443" },
@@ -59,10 +60,10 @@ const useSyncWalletStoreWithCookiesOnLoad = () => {
       const publicKey = await getCookie("publicKey");
       const scwAddress = await getCookie("scwAddress");
 
-      const encryptedMnemonic = JSON.parse(
+      const encryptedMnemonic = safeParseJSON(
         (await getCookie("mnemonic")) ?? ""
       ) as EncryptedData;
-      const encryptedPrivateKey = JSON.parse(
+      const encryptedPrivateKey = safeParseJSON(
         (await getCookie("privateKey")) ?? ""
       ) as EncryptedData;
 

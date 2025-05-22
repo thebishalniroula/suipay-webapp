@@ -1,5 +1,6 @@
 // lib/cookies.ts
 import { setCookie, getCookie, deleteCookie } from "cookies-next";
+import { safeParseJSON } from "./utils";
 
 type EncryptedWallet = {
   encryptedData: Uint8Array;
@@ -36,7 +37,7 @@ export function getEncryptedWalletCookie(
   if (!cookie) return null;
 
   try {
-    const parsed = JSON.parse(cookie as string);
+    const parsed = safeParseJSON(cookie as string);
     return {
       encryptedData: new Uint8Array(parsed.encryptedData),
       salt: new Uint8Array(parsed.salt),
