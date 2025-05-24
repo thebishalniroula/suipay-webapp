@@ -65,7 +65,7 @@ const RecoveryPhrase = (props: RecoveryPhraseProps) => {
               <Link
                 href={props.continueLink}
                 target="_blank"
-                className="h-full w-full block absolute inset-0"
+                className="h-full w-full absolute inset-0 flex items-center justify-center"
               >
                 Continue
               </Link>
