@@ -21,7 +21,7 @@ import { encryptData } from "@/utils/encryption";
 import toast from "react-hot-toast";
 import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import RecoveryPhrase from "@/components/ui/recovery-phrase";
 import Spinner from "@/icons/spinner";
 
@@ -61,8 +61,13 @@ export default function SignupPage() {
   const { setPlain, setEncrypted } = useWalletEssentialsStore();
 
   const router = useRouter();
+  const [step, setStep] = useState<"form" | "recovery">("form");
 
   const [mnemonic, setMnemonic] = useState<string>("");
+
+  const handleContinue = useCallback(() => {
+    router.push("/dashboard");
+  }, [router]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -96,6 +101,8 @@ export default function SignupPage() {
 
       setMnemonic(mnemonic);
 
+      setStep("recovery");
+
       toast.success("Signup successful!");
     } catch (error) {
       console.log(error);
@@ -118,17 +125,11 @@ export default function SignupPage() {
         Signup for a Smart Contract Wallet
       </h2>
 
-      {mnemonic && (
+      {step === "recovery" && mnemonic ? (
         <div className="max-w-md w-full rounded-3xl border-[#4F4AED] border">
-          <RecoveryPhrase
-            phrase={mnemonic}
-            handleContinue={() => {
-              router.push("/dashboard");
-            }}
-          />
+          <RecoveryPhrase phrase={mnemonic} handleContinue={handleContinue} />
         </div>
-      )}
-      {!mnemonic && (
+      ) : (
         <div className="bg-transparent border border-[#4F4AED] rounded-3xl p-8 w-full max-w-md">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

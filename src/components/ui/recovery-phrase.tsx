@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "./button";
 import InfoBox from "./info-box";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type RecoveryPhraseProps = {
   phrase: string;
