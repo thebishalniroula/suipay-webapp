@@ -25,6 +25,7 @@ import { useState } from "react";
 import RecoveryPhrase from "@/components/ui/recovery-phrase";
 import Spinner from "@/icons/spinner";
 import { setCookie } from "cookies-next";
+import { useSession } from "@/hooks/use-session";
 
 const formSchema = z
   .object({
@@ -49,6 +50,7 @@ const formSchema = z
 type FormData = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
+  // useSession();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -122,7 +124,7 @@ export default function SignupPage() {
       <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">SuiPay</h1>
 
       <h2 className="text-xl md:text-2xl text-white mb-10">
-        Signup for a Smart Contract Wallet
+        Signup for a Smart Contract Walle
       </h2>
 
       {mnemonic && (
