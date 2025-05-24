@@ -25,6 +25,7 @@ import { useState } from "react";
 import RecoveryPhrase from "@/components/ui/recovery-phrase";
 import Spinner from "@/icons/spinner";
 import { setCookie } from "cookies-next";
+import { useSession } from "@/hooks/use-session";
 
 const formSchema = z
   .object({
@@ -49,6 +50,7 @@ const formSchema = z
 type FormData = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
+  // useSession();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
