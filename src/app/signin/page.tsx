@@ -89,7 +89,7 @@ export default function SignPage() {
 
       toast.success("Signin successful!");
 
-      router.push("/dashboard");
+      window.open("/dashboard", "_blank");
     } catch (error) {
       console.log(error);
       toast.error("Signin failed!");
