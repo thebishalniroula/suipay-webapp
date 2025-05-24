@@ -59,10 +59,14 @@ const RecoveryPhrase = (props: RecoveryPhraseProps) => {
             size="md"
             variant="primary"
             onClick={props.handleContinue}
-            className="mt-auto"
+            className="mt-auto relative"
           >
             {props.continueLink ? (
-              <Link href={props.continueLink} className="h-full w-full">
+              <Link
+                href={props.continueLink}
+                target="_blank"
+                className="h-full w-full block absolute inset-0"
+              >
                 Continue
               </Link>
             ) : (
