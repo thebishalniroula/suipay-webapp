@@ -122,7 +122,7 @@ export default function SignupPage() {
       <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">SuiPay</h1>
 
       <h2 className="text-xl md:text-2xl text-white mb-10">
-        Signup for a Smart Contract Wallet
+        Signup for a Smart Contract Walle
       </h2>
 
       {mnemonic && (
