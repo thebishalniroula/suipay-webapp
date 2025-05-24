@@ -23,6 +23,7 @@ import { useWalletEssentialsStore } from "@/store/wallet-essentials";
 import { deriveKeyPair } from "@/utils/create-address";
 import { encryptData } from "@/utils/encryption";
 import Spinner from "@/icons/spinner";
+import { setCookie } from "cookies-next";
 
 const formSchema = z.object({
   seedphrase: z.string().min(2, {
@@ -73,6 +74,7 @@ export default function SignPage() {
         password: values.password,
       });
 
+      // Set state
       setPlain({
         address,
         publicKey,

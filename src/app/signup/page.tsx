@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import RecoveryPhrase from "@/components/ui/recovery-phrase";
 import Spinner from "@/icons/spinner";
+import { setCookie } from "cookies-next";
 
 const formSchema = z
   .object({
@@ -98,6 +99,14 @@ export default function SignupPage() {
         privateKey: encryptedPrivateKey,
         mnemonic: encryptedMnemonic,
       });
+
+      // Set cookies
+      setCookie("address", address);
+      setCookie("publicKey", publicKey);
+      setCookie("accessToken", res.accessToken);
+      setCookie("scwAddress", res.user.wallet);
+      setCookie("privateKey", encryptedPrivateKey);
+      setCookie("mnemonic", encryptedMnemonic);
 
       setMnemonic(mnemonic);
 

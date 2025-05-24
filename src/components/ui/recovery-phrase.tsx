@@ -3,11 +3,13 @@ import { Button } from "./button";
 import InfoBox from "./info-box";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type RecoveryPhraseProps = {
   phrase: string;
   handleContinue?: () => void;
   className?: string;
+  continueLink?: string;
 };
 
 const RecoveryPhrase = (props: RecoveryPhraseProps) => {
@@ -53,14 +55,20 @@ const RecoveryPhrase = (props: RecoveryPhraseProps) => {
           {copied ? "Copied!" : "Copy Recovery Phrase"}
         </Button>
 
-        {props.handleContinue && (
+        {(props.handleContinue || props.continueLink) && (
           <Button
             size="md"
             variant="primary"
             onClick={props.handleContinue}
             className="mt-auto"
           >
-            Continue
+            {props.continueLink ? (
+              <Link href={props.continueLink} className="h-full w-full">
+                Continue
+              </Link>
+            ) : (
+              "Continue"
+            )}
           </Button>
         )}
       </div>
